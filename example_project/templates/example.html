@@ -1,0 +1,57 @@
+{% load webdesign %}
+{% load genericflatblocks_tags %}
+
+{% comment %}
+    Let's create an flatblock with a "as" argument. We publish this
+    block at the end of this page in a variable called FOOTER
+{% endcomment %}
+
+{% genericflatblock "footer" as "FOOTER" %}   
+
+<html>
+<head>
+    <title>My shiny example project</title>
+    <style type="text/css">
+    #outline{
+        font: 0.9em/1.5em sans-serif;
+        margin: 4em 10em;
+    }
+        
+    #footer{
+        clear: both;
+        font-size: 0.85em;
+        line-height: 1.4em;
+        color: #666;       
+    }
+    
+    #footer hr{
+        margin: 2em 0;
+        border: none;
+        border-top: 0.3em solid #ccc;
+    }
+    
+    </style>
+</head>
+</body>
+<div id="outline">
+    
+    <h1>My shiny example project</h1>
+        
+    <div id="content">
+        {% genericflatblock "homepage_top" %}           
+        {% genericflatblock "homepage_top" with "red_object.html" %}   
+        {% genericflatblock "image" for "generic_flatblocks.FlatblockImageWithCaption" with "image_node.html" %}     
+    </div>
+    
+    <div id="footer">
+        <hr/>
+        {% comment %}
+            This instance was created at the top of this document. Scroll up.
+        {% endcomment %}
+
+        {{ FOOTER }}
+    </div>
+
+</div>
+</body>
+</html>
