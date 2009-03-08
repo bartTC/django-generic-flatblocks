@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.conf import settings
-from generic_flatblocks.models import GenericFlatblock, FlatblockTitleAndText, \
-                                      FlatblockImageWithCaption
+from generic_flatblocks.models import GenericFlatblock
 
 class GenericFlatblockAdmin(admin.ModelAdmin):
     def change_view(self, request, object_id, extra_context=None):
@@ -23,5 +22,3 @@ class GenericFlatblockAdmin(admin.ModelAdmin):
         return super(GenericFlatblockAdmin, self).change_view(request, object_id, extra_context=c)
     
 admin.site.register(GenericFlatblock, GenericFlatblockAdmin)
-admin.site.register(FlatblockTitleAndText)
-admin.site.register(FlatblockImageWithCaption)
