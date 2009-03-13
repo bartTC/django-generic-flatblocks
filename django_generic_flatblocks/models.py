@@ -4,9 +4,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.conf import settings
 
-
 class GenericFlatblock(models.Model):
-    slug = models.SlugField(max_length=255, unique=True)
+    slug = models.SlugField(_('slug'), max_length=255, unique=True)
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')

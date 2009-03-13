@@ -1,6 +1,3 @@
-A flatpages/flatblock application using generic relations to content nodes.
-
-Still very rough, need to figure out how to edit generic-related objects inline
-in the admin.
-
-Feel free to play around.
+=========================
+django-generic-flatblocks
+=========================

@@ -90,8 +90,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.humanize',
     'django.contrib.webdesign',
-    'generic_flatblocks',
-    'django_extensions',
+    'django_generic_flatblocks',
+    'django_generic_flatblocks.contrib.gblocks',
 )
 
 MIDDLEWARE_CLASSES = (

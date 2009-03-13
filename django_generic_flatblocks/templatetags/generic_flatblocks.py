@@ -3,7 +3,8 @@ from django.template import TemplateSyntaxError, TemplateDoesNotExist, Variable
 from django.template.loader import select_template
 from django.conf import settings
 from django.db.models.loading import get_model
-from generic_flatblocks.models import GenericFlatblock
+from django.template.defaultfilters import slugify
+from django_generic_flatblocks.models import GenericFlatblock
 
 register = Library()
 
@@ -14,11 +15,32 @@ class GenericFlatblockNode(Node):
         self.template_path = template_path
         self.variable_name = variable_name
     
-    def get_content_object(self, modelname, slug):
-        applabel, modellabel = modelname.split(".")
-        related_model = get_model(applabel, modellabel)
+    def generate_slug(self, slug, context):
+        """
+        Generates a slug out of a comma-separated string. Automatically resolves
+        variables in it. Examples::
         
-        print slug
+        "website","title" -> website_title
+        "website",LANGUAGE_CODE -> website_en
+        """
+        return slugify('_'.join([self.resolve(i, context) for i in slug.split(',')]))
+        
+    def generate_admin_link(self, related_object, context):
+        """
+        Generates a link to contrib.admin change view. In Django 1.1 this
+        will work automatically using urlresolvers.
+        """
+        app_label = related_object._meta.app_label
+        module_name = related_object._meta.module_name
+        # Check if user has change permissions
+        if context['perms'].user.is_authenticated() and \
+           context['perms'].user.has_perm('%s.change' % module_name):
+            admin_url_prefix = getattr(settings, 'ADMIN_URL_PREFIX', '/admin/')
+            return '%s%s/%s/%s/' % (admin_url_prefix, app_label, module_name, related_object.pk)
+        else:
+            return None
+        
+    def get_content_object(self, related_model, slug):        
         try:
             # Objekt laden
             obj = GenericFlatblock.objects.get(slug=slug)
@@ -29,24 +51,32 @@ class GenericFlatblockNode(Node):
         return obj        
 
     def resolve(self, var, context):
-        """Resolves a variable if var is not in " or '"""
+        """Resolves a variable out of context if it's not in quotes"""
         if var[0] in ('"', "'") and var[-1] == var[0]:
             return var[1:-1]
         else:
             return Variable(var).resolve(context)
+
+    def resolve_model_for_label(self, modelname, context):
+        """resolves a model for a applabel.modelname string"""
+        applabel, modellabel = self.resolve(modelname, context).split(".")
+        related_model = get_model(applabel, modellabel)
+        return related_model
         
     def render(self, context):    
         
-        # Get the content and related content object
-        generic_object = self.get_content_object(
-            modelname = self.resolve(self.modelname, context),
-            slug = self.resolve(self.slug, context)
-        )
+        slug = self.generate_slug(self.slug, context)
+        related_model = self.resolve_model_for_label(self.modelname, context)
         
+        # Get the content and related content object
+        generic_object = self.get_content_object(related_model, slug)
+        
+        # Add the model instances to the current context        
         context['generic_object'] = generic_object
         context['object'] = generic_object.content_object
-
-        # Render the template
+        context['admin_url'] = self.generate_admin_link(generic_object.content_object, context)
+                
+        # Resolve the template(s)
         template_paths = []
         if self.template_path:
             template_paths.append(self.resolve(self.template_path, context))
@@ -69,7 +99,6 @@ class GenericFlatblockNode(Node):
         
 def do_genericflatblock(parser, token):
     """
-    {% genericflatblcok "slug" %}
     {% genericflatblcok "slug" for "appname.modelname" %}
     {% genericflatblcok "slug" for "appname.modelname" with "templatename.html" %}
     {% genericflatblcok "slug" for "appname.modelname" with "templatename.html" as "variable" %}
@@ -77,14 +106,13 @@ def do_genericflatblock(parser, token):
 
     def next_bit_for(bits, key, if_none=None):
         try:
-            # TODO: auf naechste variable pruefen
             return bits[bits.index(key)+1]
         except ValueError:
             return if_none
     
     bits = token.contents.split()
     args = {
-        'slug': bits[1],
+        'slug': next_bit_for(bits, 'gblock'),
         'modelname': next_bit_for(bits, 'for'),
         'template_path': next_bit_for(bits, 'with'),
         'variable_name': next_bit_for(bits, 'as'),

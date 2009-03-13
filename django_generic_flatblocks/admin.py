@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.conf import settings
-from generic_flatblocks.models import GenericFlatblock
+from django_generic_flatblocks.models import GenericFlatblock
 
 class GenericFlatblockAdmin(admin.ModelAdmin):
     def change_view(self, request, object_id, extra_context=None):
