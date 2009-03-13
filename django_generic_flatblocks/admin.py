@@ -9,7 +9,6 @@ class GenericFlatblockAdmin(admin.ModelAdmin):
         This template forwards the user to the real content object admin site.
         """
         related_object = self.model.objects.get(pk=object_id).content_object
-        print dir(related_object._meta)
         c = {
             'admin_base_url': getattr(settings, 'ADMIN_BASE_URL', '/admin'),
             'related_app_label': related_object._meta.app_label,
