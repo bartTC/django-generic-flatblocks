@@ -36,7 +36,7 @@ templatetags library::
 
 Then define a content node using the ``gblock`` templatetag::
 
-    {% "gblock unique_slug" for "applabel.modelname" with "render/with/template.html" as variable %}
+    {% "gblock unique_slug" for "applabel.modelname" with "render/with/template.html" as "variable" %}
 
 The arguments in detail:
 
