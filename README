@@ -5,7 +5,7 @@ django-generic-flatblocks
 If you want to add tiny snippets of text to your site, manageable by the admin
 backend, you would use either `django-chunks`_ or `django-flatblocks`_. However, both
 of them have one problem: you are limited to a predefined content field; a "text"
-field in chunks and in flatblocks a "title" and "text" field.
+field in chunks and a "title" and "text" field in flatblocks.
 
 django-generic-flatblocks solves this problem as it knows nothing about the 
 content itself. You *attach* your hand made content node (a simple model) where
@@ -49,15 +49,15 @@ The arguments in detail:
     "homepage","headline" becomes "homepage_headline"
     "homepage_title",LANGUAGE_CODE becomes "homepage_title_en" (depends on the users locale code)
 
-- *for* **"applabel.modelname"** (required): The with argument defines, what
+- *for* **"applabel.modelname"** (required): The *for* argument defines, what
   content-node (model) will be used to store and display the content. The format
   is *appname.modelname*. For some contributed content-nodes see below. This
   argument can be a context-variable as well.
 
 - *with* **"template_path"** (optional): You can define a template that is used
   for rendering the content node. If you do not provide any template, the default
-  templates is used. The default path to this is ``<applabel>/<modelname>/flatblock.html``.
-  This argument can be a context-variable as well.
+  template ``<applabel>/<modelname>/flatblock.html`` is used. This argument can
+  be a context-variable as well.
 
 - *as* **"variable name"** (optional): If you provide a variable name, the rendered content
   node is stored in it. Otherwise it's displayed directly.
@@ -90,7 +90,7 @@ This template is the default template to render the content node, if you do not
 provide a unique template for it (*with* argument).
 
 In this template are all context-variables from the *parent* template available
-some objects:
+plus some extra variables:
 
 - ``object``: This variable is the model-instance for the generic block.
 - ``generic_object``: This variable is the model-instance for the generic
