@@ -118,13 +118,13 @@ to your ``INSTALLED_APPS`` in your settings and resync your database: ``./manage
 
 The contributed content nodes are:
 
-- **blocks.Title**: A CharField rendered as a <h2> Tag.
-- **blocks.Text**: A TextField rendered as html paragraphs. (This is what django-chunks provides)
-- **blocks.Image**: A ImageField rendered as <img> Tag.
-- **blocks.TitleAndText**: A CharField and a TextField. (This is what django-flatblocks provides)
-- **blocks.TitleTextAndImage**: A CharField, TextField and ImageField
+- **gblocks.Title**: A CharField rendered as a <h2> Tag.
+- **gblocks.Text**: A TextField rendered as html paragraphs. (This is what django-chunks provides)
+- **gblocks.Image**: A ImageField rendered as <img> Tag.
+- **gblocks.TitleAndText**: A CharField and a TextField. (This is what django-flatblocks provides)
+- **gblocks.TitleTextAndImage**: A CharField, TextField and ImageField
 
 So if you want to display a title and textfield, use this templatetag for 
 example::
 
-    {% gblock "about_me" for "blocks.TitleAndText" %}
+    {% gblock "about_me" for "gblocks.TitleAndText" %}
