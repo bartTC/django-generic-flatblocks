@@ -3,43 +3,127 @@ django-generic-flatblocks
 =========================
 
 If you want to add tiny snippets of text to your site, manageable by the admin
-backend, you would use either django-chunks_ or django-flatblocks_. However, both
-of them had one problem: you are limited to a prefefined content field; a "text"
+backend, you would use either `django-chunks`_ or `django-flatblocks`_. However, both
+of them have one problem: you are limited to a predefined content field; a "text"
 field in chunks and in flatblocks a "title" and "text" field.
 
 django-generic-flatblocks solves this problem as it knows nothing about the 
 content itself. You *attach* your hand made content node (a simple model) where
 you can define any fields you want.
 
-.. django-flatblocks: http://github.com/zerok/django-flatblocks/tree/master
-.. django-chunks: http://code.google.com/p/django-chunks/
-
 Installation
 ============
 
 1. Insert ``django_generic_flatblocks`` to your ``INSTALLED_APPS`` in your
    settings. 
-
-2. Resync your database: ``./manage.py syncdb``
+2. (optional) Define the url prefix to your contrib.admin installation in the setting
+  ``ADMIN_URL_PREFIX``. Most commonly this is ``/admin/``. Beware of the trailing
+  slash.
+3. Resync your database: ``./manage.py syncdb``
    
 Usage in templates
 ==================
 
+First of all, in every template you want to use generic-flatblocks, load the
+templatetags library::
 
+    {% load generic_flatblocks %}
+
+Then define a content node using the ``gblock`` templatetag::
+
+    {% "gblock unique_slug" for "applabel.modelname" with "render/with/template.html" as variable %}
+
+The arguments in detail:
+
+- **"unique_slug"** (required): The slug argument defines under which
+  *key* the content is stored in your database. You can define as many slugs as
+  you want, just use a comma as separator. You can use context-variables as 
+  well. Examples::
+  
+    "homepage headline" becomes "homepage_headline"
+    "homepage","headline" becomes "homepage_headline"
+    "homepage_title",LANGUAGE_CODE becomes "homepage_title_en" (depends on the users locale code)
+
+- *for* **"applabel.modelname"** (required): The with argument defines, what
+  content-node (model) will be used to store and display the content. The format
+  is *appname.modelname*. For some contributed content-nodes see below. This
+  argument can be a context-variable as well.
+
+- *with* **"template_path"** (optional): You can define a template that is used
+  for rendering the content node. If you do not provide any template, the default
+  templates is used. The default path to this is ``<applabel>/<modelname>/flatblock.html``.
+  This argument can be a context-variable as well.
+
+- *as* **"variable name"** (optional): If you provide a variable name, the rendered content
+  node is stored in it. Otherwise it's displayed directly.
 
 Create your own content node
 ============================
 
+A content node is a simple django-model. No quirks. If you want to use a title
+and a textfield as your content-node, define a new model ``Entry`` in your
+application ``myproject``::
+
+    from django.db import models
+    from django.contrib import admin
+    
+    class Entry(models.Model):
+        title = models.CharField(max_length=255, blank=True)
+        content = models.TextField(blank=True)
+        
+        def __unicode__(self):
+            return self.title
+    
+    admin.site.register(Entry)
+
+**Important**: django-generic-flatblocks creates an empty content-node upon first
+request, so make sure each field has either it's default value or allow ``blank=True``.
+Don't forget to register your Model in the admin backend, if you want to edit it there.
+
+Then create a template ``myproject/entry/flatblock.html`` in your template directory.
+This template is the default template to render the content node, if you do not
+provide a unique template for it (*with* argument).
+
+In this template are all context-variables from the *parent* template available
+some objects:
+
+- ``object``: This variable is the model-instance for the generic block.
+- ``generic_object``: This variable is the model-instance for the generic
+  content object itself. Mostly you don't need this.
+- ``admin_url``: A URL to the change view of the current object. This variable
+  is ``None`` if the current user has no change permissions for the object.
+
+A common template source for the above content node would be::
+
+    <h1>{{ object.title }}</h1>
+    {{ object.content|safe }}
+    
+    {% if admin_url %}<a href="{{ admin_url }}">edit this</a>{% endif %}
+
+In your templates, create a new content node using the templatetag::
+
+    {% gblock "about_me" for "myproject.Entry" %}
+
 Contributed content nodes
 =========================
 
+django-generic-flatblocks comes with some very commonly used content-nodes. They
+are not installed by default. To do so, insert ``django_generic_flatblocks.contrib.gblocks``
+to your ``INSTALLED_APPS`` in your settings and resync your database: ``./manage.py syncdb``.
 
-1. Insert ``django_generic_flatblocks.contrib.gblocks`` to your
-   ``INSTALLED_APPS`` in your settings. 
+The contributed content nodes are:
 
-2. Resync your database: ``./manage.py syncdb``
+- **blocks.Title**: A CharField rendered as a <h2> Tag.
+- **blocks.Text**: A TextField rendered as html paragraphs. (This is what django-chunks provides)
+- **blocks.Image**: A ImageField rendered as <img> Tag.
+- **blocks.TitleAndText**: A CharField and a TextField. (This is what django-flatblocks provides)
+- **blocks.TitleTextAndImage**: A CharField, TextField and ImageField
 
-The example project
-===================
+So if you want to display a title and textfield, use this templatetag for 
+example::
 
-.. `GitHub mirror`: http://github.com/bartTC/django-generic-flatblocks/tree/master
+    {% gblock "about_me" for "blocks.TitleAndText" %}
+
+
+.. `django-flatblocks`: http://github.com/zerok/django-flatblocks/tree/master
+.. `django-chunks`: http://code.google.com/p/django-chunks/
