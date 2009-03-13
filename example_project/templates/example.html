@@ -1,4 +1,3 @@
-{% load webdesign %}
 {% load generic_flatblocks %}
 
 {% comment %}
@@ -6,7 +5,7 @@
     block at the end of this page in a variable called FOOTER
 {% endcomment %}
 
-{% gblock "footer" for "gblocks.TitleAndText" as "FOOTER" %}   
+{% gblock "footer" for "gblocks.Text" as "FOOTER" %}   
 
 <html>
 <head>
@@ -18,10 +17,33 @@
 </head>
 </body>
 <div id="outline">
+    
+    {% comment %}
+        You can join unlimited of slug-strings or context-variables
+        to one slug. Most commonly you will do this if you need to 
+        use the users LANGUAGE_CODE in your slug, to have different
+        content nodes for every language.
+    {% endcomment %}
     {% gblock "website","title",LANGUAGE_CODE for "gblocks.Title" %}
-    {% gblock "website_teaser" for "gblocks.Text" %} 
+    
+    {% comment %}
+        The slug can also be a context variable.
+    {% endcomment %}
+    {% with "website_teaser" as my_slug %}
+        {% gblock my_slug for "gblocks.Text" %} 
+    {% endwith %}
+    
+    {% comment %}
+        You can always render each generic block with a template of
+        your choice,
+    {% endcomment %}
     {% gblock "website_urgent_notice" for "gblocks.Text" with "urgent.html" %}
+    
     <hr/>
+    
+    {% comment %}
+        Here is the FOOTER content node we defined above.
+    {% endcomment %}
     {{ FOOTER }}
 </div>
 </body>

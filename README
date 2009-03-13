@@ -1,3 +1,45 @@
 =========================
 django-generic-flatblocks
 =========================
+
+If you want to add tiny snippets of text to your site, manageable by the admin
+backend, you would use either django-chunks_ or django-flatblocks_. However, both
+of them had one problem: you are limited to a prefefined content field; a "text"
+field in chunks and in flatblocks a "title" and "text" field.
+
+django-generic-flatblocks solves this problem as it knows nothing about the 
+content itself. You *attach* your hand made content node (a simple model) where
+you can define any fields you want.
+
+.. django-flatblocks: http://github.com/zerok/django-flatblocks/tree/master
+.. django-chunks: http://code.google.com/p/django-chunks/
+
+Installation
+============
+
+1. Insert ``django_generic_flatblocks`` to your ``INSTALLED_APPS`` in your
+   settings. 
+
+2. Resync your database: ``./manage.py syncdb``
+   
+Usage in templates
+==================
+
+
+
+Create your own content node
+============================
+
+Contributed content nodes
+=========================
+
+
+1. Insert ``django_generic_flatblocks.contrib.gblocks`` to your
+   ``INSTALLED_APPS`` in your settings. 
+
+2. Resync your database: ``./manage.py syncdb``
+
+The example project
+===================
+
+.. `GitHub mirror`: http://github.com/bartTC/django-generic-flatblocks/tree/master
