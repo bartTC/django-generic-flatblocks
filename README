@@ -11,14 +11,19 @@ django-generic-flatblocks solves this problem as it knows nothing about the
 content itself. You *attach* your hand made content node (a simple model) where
 you can define any fields you want.
 
+.. _`django-flatblocks`: http://github.com/zerok/django-flatblocks/tree/master
+.. _`django-chunks`: http://code.google.com/p/django-chunks/
+
 Installation
 ============
 
 1. Insert ``django_generic_flatblocks`` to your ``INSTALLED_APPS`` in your
    settings. 
+   
 2. (optional) Define the url prefix to your contrib.admin installation in the setting
-  ``ADMIN_URL_PREFIX``. Most commonly this is ``/admin/``. Beware of the trailing
-  slash.
+   ``ADMIN_URL_PREFIX``. Most commonly this is ``/admin/``. Beware of the trailing
+   slash.
+  
 3. Resync your database: ``./manage.py syncdb``
    
 Usage in templates
@@ -123,7 +128,3 @@ So if you want to display a title and textfield, use this templatetag for
 example::
 
     {% gblock "about_me" for "blocks.TitleAndText" %}
-
-
-.. `django-flatblocks`: http://github.com/zerok/django-flatblocks/tree/master
-.. `django-chunks`: http://code.google.com/p/django-chunks/
