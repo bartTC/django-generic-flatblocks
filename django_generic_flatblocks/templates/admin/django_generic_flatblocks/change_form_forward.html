@@ -1,0 +1,11 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+
+{% block content %}
+    <p style="margin: 2em 0 0.5em 0; color: #555;">
+        <strong style="color: #c00;">{% trans "Notice" %}:</strong>
+        {% blocktrans with related_object.pk as related_pk %}This object stores only the path to the related <em>{{related_app_label}}/{{related_module_name}}</em> object with the primary key <em>{{ related_pk }}</em>.{% endblocktrans %}</p>
+    <p style="margin: 0.5em 0 3em 0;"><a style="font-weight: bold;" href="../{{ admin_url }}"
+            >{% trans "Click this link to edit the object itself." %}</a>        
+    {{ block.super }}
+{% endblock %}
