@@ -1,0 +1,7 @@
+include LICENSE
+include README
+include AUTHORS
+include MANIFEST.in
+recursive-include django_generic_flatblocks/templates *
+recursive-include django_generic_flatblocks/contrib/gblocks/templates *
+recursive-include django_generic_flatblocks/locale *
