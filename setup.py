@@ -32,7 +32,7 @@ for dirpath, dirnames, filenames in os.walk(app_name):
         for f in filenames:
             data_files.append(os.path.join(prefix, f))
  
-setup(name='django-'+app_name,
+setup(name='django-generic-flatblocks',
       version=version,
       description='A flatpages/flatblock application using generic relations to content models.',
       long_description=open('README').read(),

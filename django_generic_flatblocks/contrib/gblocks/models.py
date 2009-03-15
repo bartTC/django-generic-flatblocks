@@ -29,7 +29,7 @@ class TitleAndText(models.Model):
 class TitleTextAndImage(models.Model):
     title = models.CharField(_('title'), max_length=255, blank=True)
     text = models.TextField(_('text'), blank=True)
-    image = models.ImageField(_('image'), upload_to='glocks/', blank=True)
+    image = models.ImageField(_('image'), upload_to='gblocks/', blank=True)
 
     def __unicode__(self):
         return "(TitleTextAndImageBlock) %s" % self.title
