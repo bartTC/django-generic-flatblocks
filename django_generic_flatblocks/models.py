@@ -9,6 +9,6 @@ class GenericFlatblock(models.Model):
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
-    
+
     def __unicode__(self):
         return self.slug

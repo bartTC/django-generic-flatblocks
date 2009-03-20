@@ -14,17 +14,17 @@ class GenericFlatblockNode(Node):
         self.modelname = modelname
         self.template_path = template_path
         self.variable_name = variable_name
-    
+
     def generate_slug(self, slug, context):
         """
         Generates a slug out of a comma-separated string. Automatically resolves
         variables in it. Examples::
-        
+
         "website","title" -> website_title
         "website",LANGUAGE_CODE -> website_en
         """
         return slugify('_'.join([self.resolve(i, context) for i in slug.split(',')]))
-        
+
     def generate_admin_link(self, related_object, context):
         """
         Generates a link to contrib.admin change view. In Django 1.1 this
@@ -39,8 +39,8 @@ class GenericFlatblockNode(Node):
             return '%s%s/%s/%s/' % (admin_url_prefix, app_label, module_name, related_object.pk)
         else:
             return None
-        
-    def get_content_object(self, related_model, slug):        
+
+    def get_content_object(self, related_model, slug):
         try:
             # Objekt laden
             obj = GenericFlatblock.objects.get(slug=slug)
@@ -48,7 +48,7 @@ class GenericFlatblockNode(Node):
             # Objekt exisitert noch nicht, neu erstellen
             related_obj = related_model.objects.create()
             obj = GenericFlatblock.objects.create(slug=slug, content_object=related_obj)
-        return obj        
+        return obj
 
     def resolve(self, var, context):
         """Resolves a variable out of context if it's not in quotes"""
@@ -62,41 +62,41 @@ class GenericFlatblockNode(Node):
         applabel, modellabel = self.resolve(modelname, context).split(".")
         related_model = get_model(applabel, modellabel)
         return related_model
-        
-    def render(self, context):    
-        
+
+    def render(self, context):
+
         slug = self.generate_slug(self.slug, context)
         related_model = self.resolve_model_for_label(self.modelname, context)
-        
+
         # Get the content and related content object
         generic_object = self.get_content_object(related_model, slug)
-        
-        # Add the model instances to the current context        
+
+        # Add the model instances to the current context
         context['generic_object'] = generic_object
         context['object'] = generic_object.content_object
         context['admin_url'] = self.generate_admin_link(generic_object.content_object, context)
-                
+
         # Resolve the template(s)
         template_paths = []
         if self.template_path:
             template_paths.append(self.resolve(self.template_path, context))
         template_paths.append('%s/%s/flatblock.html' % \
             tuple(self.resolve(self.modelname, context).lower().split(".")))
-            
-        try: 
+
+        try:
             t = select_template(template_paths)
         except:
             if settings.TEMPLATE_DEBUG:
                 raise
             return ''
         content = t.render(context)
-        
+
         # Set content as variable inside context, if variable_name is given
         if self.variable_name:
             context[self.resolve(self.variable_name, context)] = content
             return ''
         return content
-        
+
 def do_genericflatblock(parser, token):
     """
     {% genericflatblcok "slug" for "appname.modelname" %}
@@ -109,7 +109,7 @@ def do_genericflatblock(parser, token):
             return bits[bits.index(key)+1]
         except ValueError:
             return if_none
-    
+
     bits = token.contents.split()
     args = {
         'slug': next_bit_for(bits, 'gblock'),

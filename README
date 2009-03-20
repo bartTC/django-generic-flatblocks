@@ -145,6 +145,8 @@ example::
 
 Changelog
 =========
+**v0.1.2** (2009-03-20)
+    Switched from distutils to setuptools. Fixed whitespace.
 
 **v0.1.1** (2009-03-15)
     Fixed wrong upload path of a contributed, generic block
