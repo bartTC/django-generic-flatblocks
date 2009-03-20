@@ -18,6 +18,8 @@
 </body>
 <div id="outline">
     
+    <p><em>See the <strong>template</strong> sources for further details.</em></p>
+    
     {% comment %}
         You can join unlimited of slug-strings or context-variables
         to one slug. Most commonly you will do this if you need to 
@@ -39,6 +41,12 @@
     {% endcomment %}
     {% gblock "website_urgent_notice" for "gblocks.Text" with "urgent.html" %}
     
+    {% comment %}
+        You can pass an integer as slug. In this case, generic-flatblocks
+        will fetch the model instance with the primary key you named in slug.
+        Basically this is a {% include %} tag on model level.
+    {% endcomment %}
+    {% gblock 1 for "auth.user" with "current_user.html" %}
     <hr/>
     
     {% comment %}

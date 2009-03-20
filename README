@@ -50,6 +50,16 @@ The arguments in detail:
     "homepage","headline" becomes "homepage_headline"
     "homepage_title",LANGUAGE_CODE becomes "homepage_title_en" (depends on the users locale code)
 
+  You can pass an *integer* as the slug. This will cause the templatetag to fetch
+  the model named in *for* with the primary key you named in *slug*. Example::
+  
+    {% gblock 1 for "auth.user" with "path/to/template.html" %}
+  
+  This will fetch the auth.User with the primary key 1 and renders this model
+  object with the template "path/to/template.html". In this case, the
+  ``generic_object`` in ``None``. Basically this is a ``{% include %}`` Tag on
+  model level.
+  
 - *for* **"applabel.modelname"** (required): The *for* argument defines, what
   content-node (model) will be used to store and display the content. The
   format is *appname.modelname*. For some contributed content-nodes see
@@ -145,6 +155,11 @@ example::
 
 Changelog
 =========
+**v0.2.0** (2009-03-20)
+    Added the ability to pass an integer as slug. This will cause that the
+    templatetag fetches the specific *for* model with the primary key named
+    in *slug*.
+    
 **v0.1.2** (2009-03-20)
     Switched from distutils to setuptools. Fixed whitespace.
 

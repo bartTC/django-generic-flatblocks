@@ -23,6 +23,10 @@ class GenericFlatblockNode(Node):
         "website","title" -> website_title
         "website",LANGUAGE_CODE -> website_en
         """
+        # If the user passed a integer as slug, use it as a primary key in
+        # self.get_content_object()
+        if slug.isdigit():
+            return slug
         return slugify('_'.join([self.resolve(i, context) for i in slug.split(',')]))
 
     def generate_admin_link(self, related_object, context):
@@ -41,14 +45,22 @@ class GenericFlatblockNode(Node):
             return None
 
     def get_content_object(self, related_model, slug):
+
+        # If the user passed a Integer as a slug, assume that we should fetch
+        # this specific object
+        if slug.isdigit():
+            related_object = related_model._default_manager.get(pk=slug)
+            print related_object
+            return None, related_object
+
+        # Otherwise, try to generate a new, related object
         try:
-            # Objekt laden
-            obj = GenericFlatblock.objects.get(slug=slug)
+            generic_object = GenericFlatblock._default_manager.get(slug=slug)
+            related_object = generic_object.content_object
         except GenericFlatblock.DoesNotExist:
-            # Objekt exisitert noch nicht, neu erstellen
-            related_obj = related_model.objects.create()
-            obj = GenericFlatblock.objects.create(slug=slug, content_object=related_obj)
-        return obj
+            related_object = related_model._default_manager.create()
+            generic_object = GenericFlatblock._default_manager.create(slug=slug, content_object=related_object)
+        return generic_object, related_object
 
     def resolve(self, var, context):
         """Resolves a variable out of context if it's not in quotes"""
@@ -68,13 +80,13 @@ class GenericFlatblockNode(Node):
         slug = self.generate_slug(self.slug, context)
         related_model = self.resolve_model_for_label(self.modelname, context)
 
-        # Get the content and related content object
-        generic_object = self.get_content_object(related_model, slug)
+        # Get the generic and related object
+        generic_object, related_object = self.get_content_object(related_model, slug)
 
         # Add the model instances to the current context
         context['generic_object'] = generic_object
-        context['object'] = generic_object.content_object
-        context['admin_url'] = self.generate_admin_link(generic_object.content_object, context)
+        context['object'] = related_object
+        context['admin_url'] = self.generate_admin_link(related_object, context)
 
         # Resolve the template(s)
         template_paths = []
