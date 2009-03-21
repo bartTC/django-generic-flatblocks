@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='django-generic-flatblocks',
-    version='0.2.1',
+    version='0.3.0',
     description='A flatpages/flatblock application using generic relations to content models.',
     long_description=open('README').read(),
     author='Martin Mahner',

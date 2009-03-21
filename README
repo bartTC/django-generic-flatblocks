@@ -70,9 +70,46 @@ The arguments in detail:
   default template ``<applabel>/<modelname>/flatblock.html`` is used. This
   argument can be a context-variable.
 
+  In this template are all context-variables from the *parent* template
+  available plus some extra variables:
+
+  - ``object``: This variable is the model-instance for the generic block.
+
+  - ``generic_object``: This variable is the model-instance for the generic
+    content object itself. Mostly you don't need this.
+  
+  - ``admin_url``: A URL to the change view of the current object. This variable
+    is ``None`` if the current user has no change permissions for the object.
+  
 - *as* **"variable name"** (optional): If you provide a variable name, the
-  rendered content node is stored in it. Otherwise it's displayed directly.
+  *rendered content node* is stored in it. Otherwise it's displayed directly.
   This argument can be a context-variable.
+  
+- *into* **"variable_name"** (optional): If you provide a variable name, the
+  *related object* is stored in it. No template rendering is done. The *with*
+  and the *as* arguments are ignored. This argument can be a context-variable.
+  
+  After calling the gblock templatetag, you have the same variables available
+  as in the *with* template:
+  
+  - ``variable_name``: This variable is the model-instance for the generic block.
+
+  - ``variable_name`` + ``"_genric_object"``: This variable is the model-instance for
+    the generic content object itself. Mostly you don't need this.
+  
+  - ``variable_name`` + ``"_admin_url"``: A URL to the change view of the current object.
+    This variable is ``None`` if the current user has no change permissions for
+    the object.
+  
+  This is the quickest way to display any model instance or content-node
+  directly without creating a template. 
+  
+    {% gblock 1 for "auth.User" into "theuser" %}
+    The first user is {{ theuser.username }}! (<a href="{{ theuser_admin_url }}">edit</a>)
+
+  would be rendered as:
+  
+    The first user is johndoe! (<a href="/admin/auth/user/1/">edit</a>)
 
 Create your own content node
 ============================
@@ -105,17 +142,9 @@ content node, if you do not provide a unique template for it (*with*
 argument).
 
 In this template are all context-variables from the *parent* template
-available plus some extra variables:
+available plus some extra variables. See arguments/with above for details.
 
-- ``object``: This variable is the model-instance for the generic block.
-
-- ``generic_object``: This variable is the model-instance for the generic
-  content object itself. Mostly you don't need this.
-  
-- ``admin_url``: A URL to the change view of the current object. This variable
-  is ``None`` if the current user has no change permissions for the object.
-
-A common template source for the above content node would be::
+A common template source for the content node would be::
 
     <h1>{{ object.title }}</h1>
     {{ object.content|safe }}
@@ -155,6 +184,11 @@ example::
 
 Changelog
 =========
+
+**v0.3.0** (2009-03-21)
+    Added the *into* argument. You can now display any instance directly
+    without creating and rendering a template.
+
 **v0.2.1** (2009-03-20)
     You can now pass a context variable with a integer to fetch a specific
     object.

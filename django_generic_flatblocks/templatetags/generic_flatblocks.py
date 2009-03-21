@@ -9,11 +9,13 @@ from django_generic_flatblocks.models import GenericFlatblock
 register = Library()
 
 class GenericFlatblockNode(Node):
-    def __init__(self, slug, modelname=None, template_path=None, variable_name=None):
+    def __init__(self, slug, modelname=None, template_path=None,
+                 variable_name=None, store_in_object=None):
         self.slug = slug
         self.modelname = modelname
         self.template_path = template_path
         self.variable_name = variable_name
+        self.store_in_object = store_in_object
 
     def generate_slug(self, slug, context):
         """
@@ -81,11 +83,20 @@ class GenericFlatblockNode(Node):
 
         # Get the generic and related object
         generic_object, related_object = self.get_content_object(related_model, slug)
+        admin_url = self.generate_admin_link(related_object, context)
+
+        # if "into" is provided, store the related object into this variable
+        if self.store_in_object:
+            into_var = self.resolve(self.store_in_object, context)
+            context[into_var] = related_object
+            context["%s_generic_object" % into_var] = generic_object
+            context["%s_admin_url" % into_var] = admin_url
+            return ''
 
         # Add the model instances to the current context
         context['generic_object'] = generic_object
         context['object'] = related_object
-        context['admin_url'] = self.generate_admin_link(related_object, context)
+        context['admin_url'] = admin_url
 
         # Resolve the template(s)
         template_paths = []
@@ -111,6 +122,7 @@ class GenericFlatblockNode(Node):
 def do_genericflatblock(parser, token):
     """
     {% genericflatblcok "slug" for "appname.modelname" %}
+    {% genericflatblcok "slug" for "appname.modelname" into "slug_object" %}
     {% genericflatblcok "slug" for "appname.modelname" with "templatename.html" %}
     {% genericflatblcok "slug" for "appname.modelname" with "templatename.html" as "variable" %}
     """
@@ -127,6 +139,7 @@ def do_genericflatblock(parser, token):
         'modelname': next_bit_for(bits, 'for'),
         'template_path': next_bit_for(bits, 'with'),
         'variable_name': next_bit_for(bits, 'as'),
+        'store_in_object': next_bit_for(bits, 'into'),
     }
     return GenericFlatblockNode(**args)
 
