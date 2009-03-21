@@ -57,8 +57,8 @@ The arguments in detail:
   
   This will fetch the auth.User with the primary key 1 and renders this model
   object with the template "path/to/template.html". In this case, the
-  ``generic_object`` in ``None``. Basically this is a ``{% include %}`` Tag on
-  model level.
+  ``generic_object`` in ``None``. Basically this is a ``{% include %}`` tag on
+  model level. This can also be a context variable.
   
 - *for* **"applabel.modelname"** (required): The *for* argument defines, what
   content-node (model) will be used to store and display the content. The
@@ -155,6 +155,10 @@ example::
 
 Changelog
 =========
+**v0.2.1** (2009-03-20)
+    You can now pass a context variable with a integer to fetch a specific
+    object.
+    
 **v0.2.0** (2009-03-20)
     Added the ability to pass an integer as slug. This will cause that the
     templatetag fetches the specific *for* model with the primary key named

@@ -25,8 +25,8 @@ class GenericFlatblockNode(Node):
         """
         # If the user passed a integer as slug, use it as a primary key in
         # self.get_content_object()
-        if slug.isdigit():
-            return slug
+        if not ',' in slug and isinstance(self.resolve(slug, context), int):
+            return self.resolve(slug, context)
         return slugify('_'.join([self.resolve(i, context) for i in slug.split(',')]))
 
     def generate_admin_link(self, related_object, context):
@@ -48,9 +48,8 @@ class GenericFlatblockNode(Node):
 
         # If the user passed a Integer as a slug, assume that we should fetch
         # this specific object
-        if slug.isdigit():
+        if isinstance(slug, int):
             related_object = related_model._default_manager.get(pk=slug)
-            print related_object
             return None, related_object
 
         # Otherwise, try to generate a new, related object

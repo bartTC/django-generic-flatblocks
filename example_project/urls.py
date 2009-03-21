@@ -7,5 +7,5 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^$', direct_to_template, {'template': 'example.html'}),
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    (r'^admin/(.*)', admin.site.root),
+    (r'^admin/(.*)', include(admin.site.urls)),
 )
