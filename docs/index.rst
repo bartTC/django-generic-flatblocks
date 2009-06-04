@@ -1,20 +1,30 @@
-.. django-generic-flatblocks documentation master file, created by
-   sphinx-quickstart on Thu Jun  4 20:21:28 2009.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. index:
 
 Welcome to django-generic-flatblocks's documentation!
 =====================================================
 
+If you want to add tiny snippets of text to your site, manageable by the admin
+backend, you would use either `django-chunks`_ or `django-flatblocks`_.
+However, both of them have one problem: you are limited to a predefined
+content field; a "text" field in chunks and a "title" and "text" field in
+flatblocks.
+
+django-generic-flatblocks solves this problem as it knows nothing about the 
+content itself. You *attach* your hand made content node (a simple model) where
+you can define any fields you want.
+
+.. _`django-flatblocks`: http://github.com/zerok/django-flatblocks/tree/master
+.. _`django-chunks`: http://code.google.com/p/django-chunks/
+
 Contents:
 
 .. toctree::
-   :maxdepth: 2
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+   :glob:
+   
+   index
+   installation
+   configuration
+   ref/usage
+   ref/creating_nodes
+   ref/contributed_nodes
+   changelog
