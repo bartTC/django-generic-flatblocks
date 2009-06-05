@@ -18,7 +18,8 @@ you can define any fields you want.
 Documentation
 =============
 
-See the ``docs/index.rst`` and further files for a detailed documentation.
+Documenation is `available online`_ but also shipped with this package.
+See the ``docs/index.rst`` and further files for details.
 
 To quickly generate a good looking HTML documentation, step into the ``docs/``
 directory and generate the HTML docs using::
@@ -29,4 +30,4 @@ Then open the file ``_build/html/index.html``. You need the Sphinx_ package
 for this.
 
 .. _Sphinx: http://sphinx.pocoo.org/
-
+.. _available online: http://docs.mahner.org/django-generic-flatblocks/
