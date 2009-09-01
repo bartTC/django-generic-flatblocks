@@ -58,6 +58,10 @@ class GenericFlatblockNode(Node):
         try:
             generic_object = GenericFlatblock._default_manager.get(slug=slug)
             related_object = generic_object.content_object
+            if related_object is None:
+                # The related object must have been deleted. Let's start over.
+                generic_object.delete()
+                raise GenericFlatblock.DoesNotExist
         except GenericFlatblock.DoesNotExist:
             related_object = related_model._default_manager.create()
             generic_object = GenericFlatblock._default_manager.create(slug=slug, content_object=related_object)
