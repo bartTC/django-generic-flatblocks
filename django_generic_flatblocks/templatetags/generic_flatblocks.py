@@ -51,8 +51,12 @@ class GenericFlatblockNode(Node):
         # If the user passed a Integer as a slug, assume that we should fetch
         # this specific object
         if isinstance(slug, int):
-            related_object = related_model._default_manager.get(pk=slug)
-            return None, related_object
+            try:
+                related_object = related_model._default_manager.get(pk=slug)
+                return None, related_object
+            except related_model.DoesNotExist:
+                related_object = related_model()
+                return None, related_object
 
         # Otherwise, try to generate a new, related object
         try:
