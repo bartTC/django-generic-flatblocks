@@ -2,7 +2,6 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
-from django.conf import settings
 
 class GenericFlatblock(models.Model):
     slug = models.SlugField(_('slug'), max_length=255, unique=True)
