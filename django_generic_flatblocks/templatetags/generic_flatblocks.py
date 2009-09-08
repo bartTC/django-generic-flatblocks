@@ -131,10 +131,10 @@ class GenericFlatblockNode(Node):
 
 def do_genericflatblock(parser, token):
     """
-    {% genericflatblcok "slug" for "appname.modelname" %}
-    {% genericflatblcok "slug" for "appname.modelname" into "slug_object" %}
-    {% genericflatblcok "slug" for "appname.modelname" with "templatename.html" %}
-    {% genericflatblcok "slug" for "appname.modelname" with "templatename.html" as "variable" %}
+    {% gblock "slug" for "appname.modelname" %}
+    {% gblock "slug" for "appname.modelname" into "slug_object" %}
+    {% gblock "slug" for "appname.modelname" with "templatename.html" %}
+    {% gblock "slug" for "appname.modelname" with "templatename.html" as "variable" %}
     """
 
     def next_bit_for(bits, key, if_none=None):
