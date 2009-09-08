@@ -13,7 +13,14 @@ class GenericFlatblocksTestCase(TestCase):
         dummy_user.first_name = u'John'
         dummy_user.last_naem = u'Doe'
         dummy_user.save()
+        
+        self.assertEqual(dummy_user.pk, 1)
+        
         self.dummy_user = dummy_user
+    
+    def tearDown(self):
+        from django.contrib.auth.models import User
+        User.objects.all().delete()
 
     def parseTemplate(self, template_string):
         t = Template(template_string)
@@ -170,15 +177,15 @@ class GenericFlatblocksTestCase(TestCase):
         self.assertTrue(u'<foo></foo>' in t)
 
 
-        from django.core.exceptions import ObjectDoesNotExist
-        settings.DEBUG = True
+        from django.contrib.auth.models import User
+        settings.TEMPLATE_DEBUG = True
         template_string  = '''
         {% load generic_flatblocks %}
         {% gblock 5 for "auth.User" into "the_user" %}
         <foo>{{ the_user.username }}</foo>
         '''
-        self.assertRaises(ObjectDoesNotExist, self.parseTemplate, template_string)
-        settings.DEBUG = False
+        self.assertRaises((User.DoesNotExist, TemplateSyntaxError), self.parseTemplate, template_string)
+        settings.TEMPLATE_DEBUG = False
 
     def testRelatedObjectDeletion(self):
         template_string  = '''
