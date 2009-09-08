@@ -100,7 +100,7 @@ would be rendered as::
     The first user is johndoe! (<a href="/admin/auth/user/1/">edit</a>)
 
 .. note::
-   If you have `settings.DEBUG` set to `True` and your related object does not
-   exist, the templatetag will raise a ObjectNotFound exception. It will fail
-   silently if you set `settings.DEBUG` to `False` and return a (not saved)
-   instance of the related model.
+   If you have `settings.TEMPLATE_DEBUG` set to `True` and your related object
+   does not exist, the templatetag will raise a ObjectNotFound exception. It
+   will fail silently if you set `settings.TEMPLATE_DEBUG` to `False` and
+   return an (empty, not saved) instance of the related model.
