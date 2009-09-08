@@ -1,14 +1,15 @@
-# SOME DESCRIPTIVE TITLE.
+# django-generic-flatblocks in Danish.
+# django-generic-flatblocks på Dansk.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Michael Lind Mortensen <illio@cs.au.dk>, 2009.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-08 10:29+0200\n"
+"POT-Creation-Date: 2009-09-04 12:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,29 +19,29 @@ msgstr ""
 
 #: admin.py:22
 msgid "change related object"
-msgstr ""
+msgstr "ændre relateret objekt"
 
 #: models.py:8
 msgid "slug"
-msgstr ""
+msgstr "slug"
 
 #: contrib/gblocks/models.py:5 contrib/gblocks/models.py:23
 #: contrib/gblocks/models.py:30
 msgid "title"
-msgstr ""
+msgstr "titel"
 
 #: contrib/gblocks/models.py:11 contrib/gblocks/models.py:24
 #: contrib/gblocks/models.py:31
 msgid "text"
-msgstr ""
+msgstr "tekst"
 
 #: contrib/gblocks/models.py:17 contrib/gblocks/models.py:32
 msgid "image"
-msgstr ""
+msgstr "billede"
 
 #: templates/admin/django_generic_flatblocks/change_form_forward.html:6
 msgid "Notice"
-msgstr ""
+msgstr "Notifikation"
 
 #: templates/admin/django_generic_flatblocks/change_form_forward.html:7
 #, python-format
@@ -49,7 +50,10 @@ msgid ""
 "(related_module_name)s</em> object with the primary key <em>%(related_pk)s</"
 "em>."
 msgstr ""
+"Dette objekt gemmer udelukkende stien til det relaterede <em>%(related_app_label)s/%"
+"(related_module_name)s</em> objekt med den primære nøgle <em>%(related_pk)s</"
+"em>."
 
 #: templates/admin/django_generic_flatblocks/change_form_forward.html:9
 msgid "Click this link to edit the object itself."
-msgstr ""
+msgstr "Klik på dette link for at ændre objektet selv."
