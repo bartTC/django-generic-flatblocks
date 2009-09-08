@@ -55,6 +55,8 @@ class GenericFlatblockNode(Node):
                 related_object = related_model._default_manager.get(pk=slug)
                 return None, related_object
             except related_model.DoesNotExist:
+                if settings.DEBUG:
+                    raise
                 related_object = related_model()
                 return None, related_object
 
