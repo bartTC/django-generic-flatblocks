@@ -27,6 +27,7 @@ well. Examples::
     "homepage headline" becomes "homepage_headline"
     "homepage","headline" becomes "homepage_headline"
     "homepage_title",LANGUAGE_CODE becomes "homepage_title_en" (depends on the users locale code)
+    "user",user.pk becomes "user_1" (depends on the primary key of the currently logged in user)
 
 You can pass an *integer* as the slug. This will cause the templatetag to fetch
 the model named in *for* with the primary key you named in *slug*. Example::

@@ -25,6 +25,13 @@ Documenation is available online under:
 Changelog
 =========
 
+----------------------------
+v0.9 (backwards compatible):
+----------------------------
+
+* Fixed a bug where an integer was not allowed as a part of a slug.
+
+----------------------------
 v0.4 (backwards compatible):
 ----------------------------
 

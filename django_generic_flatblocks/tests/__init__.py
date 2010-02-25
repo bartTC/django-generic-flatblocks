@@ -55,12 +55,14 @@ class GenericFlatblocksTestCase(TestCase):
         {% gblock "title","foo" for "gblocks.Title" %}
         {% gblock "title","foo",LANGUAGE_CODE for "gblocks.Title" %}
         {% gblock "user",user.pk for "gblocks.Title" %}
+        {% gblock "int","slug",1 for "gblocks.Title" %}
         '''
         self.parseTemplate(template_string)
         self.assertTrue(GenericFlatblock.objects.get(slug='title'))
         self.assertTrue(GenericFlatblock.objects.get(slug='title_foo'))
         self.assertTrue(GenericFlatblock.objects.get(slug='title_foo_en'))
         self.assertTrue(GenericFlatblock.objects.get(slug='user_1'))
+        self.assertTrue(GenericFlatblock.objects.get(slug='int_slug_1'))
 
     def testSlugArgumentWithInteger(self):
         # Integer slug
