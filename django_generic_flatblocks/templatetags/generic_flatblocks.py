@@ -29,7 +29,7 @@ class GenericFlatblockNode(Node):
         # self.get_content_object()
         if not ',' in slug and isinstance(self.resolve(slug, context), int):
             return self.resolve(slug, context)
-        return slugify('_'.join([self.resolve(i, context) for i in slug.split(',')]))
+        return slugify('_'.join([str(self.resolve(i, context)) for i in slug.split(',')]))
 
     def generate_admin_link(self, related_object, context):
         """
