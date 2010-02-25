@@ -14,18 +14,20 @@ class GenericFlatblocksTestCase(TestCase):
         dummy_user.last_naem = u'Doe'
         dummy_user.save()
         
-        self.assertEqual(dummy_user.pk, 1)
-        
+        self.assertEqual(dummy_user.pk, 1)        
         self.dummy_user = dummy_user
+        
+        self.admin_user = User.objects.create_superuser(u'admin', u'admin@example.com', u'foobar')
     
     def tearDown(self):
         from django.contrib.auth.models import User
         User.objects.all().delete()
 
-    def parseTemplate(self, template_string):
+    def parseTemplate(self, template_string, admin_user=False):
+        user = admin_user and self.admin_user or self.dummy_user
         t = Template(template_string)
-        c = Context({'user': self.dummy_user,
-                     'perms': PermWrapper(self.dummy_user),
+        c = Context({'user': user,
+                     'perms': PermWrapper(user),
                      'LANGUAGE_CODE': 'en'})
         return t.render(c)
 
@@ -232,3 +234,41 @@ class GenericFlatblocksTestCase(TestCase):
         self.assertTrue(isinstance(GenericFlatblock.objects.get(slug=u'image').content_object, models.Image))
         self.assertTrue(isinstance(GenericFlatblock.objects.get(slug=u'title_and_text').content_object, models.TitleAndText))
         self.assertTrue(isinstance(GenericFlatblock.objects.get(slug=u'title_text_and_image').content_object, models.TitleTextAndImage))
+        
+    def testAdminLink(self):
+        template_string  = '''
+        {% load generic_flatblocks %}
+        {% gblock "title" for "gblocks.Title" with "test_template.html" %}
+        '''
+        t = self.parseTemplate(template_string, admin_user=True)        
+        self.assertTrue("/admin/gblocks/title/1/" in t)
+        
+        
+        # The admin link gets appended to the "into" argument
+        template_string  = '''
+        {% load generic_flatblocks %}
+        {% gblock "title" for "gblocks.Title" into "title_object" %}
+        {{ title_object_admin_url }}
+        '''
+        t = self.parseTemplate(template_string, admin_user=True)        
+        self.assertTrue("/admin/gblocks/title/1/" in t)
+
+        # You can define the admin prefix using a setting
+        from django.conf import settings
+        settings.ADMIN_URL_PREFIX = '/secret-admin-url/'
+        
+        template_string  = '''
+        {% load generic_flatblocks %}
+        {% gblock "title" for "gblocks.Title" with "test_template.html" %}
+        '''
+        t = self.parseTemplate(template_string, admin_user=True)        
+        self.assertTrue("/secret-admin-url/gblocks/title/1/" in t)
+        
+
+        template_string  = '''
+        {% load generic_flatblocks %}
+        {% gblock "title" for "gblocks.Title" into "title_object" %}
+        {{ title_object_admin_url }}
+        '''
+        t = self.parseTemplate(template_string, admin_user=True)        
+        self.assertTrue("/secret-admin-url/gblocks/title/1/" in t)
