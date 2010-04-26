@@ -39,8 +39,8 @@ class GenericFlatblockNode(Node):
         app_label = related_object._meta.app_label
         module_name = related_object._meta.module_name
         # Check if user has change permissions
-        if context['perms'].user.is_authenticated() and \
-           context['perms'].user.has_perm('%s.change' % module_name):
+        if context['request'].user.is_authenticated() and \
+           context['request'].user.has_perm('%s.change' % module_name):
             admin_url_prefix = getattr(settings, 'ADMIN_URL_PREFIX', '/admin/')
             return '%s%s/%s/%s/' % (admin_url_prefix, app_label, module_name, related_object.pk)
         else:
