@@ -5,6 +5,16 @@ from django.template import Template, TemplateDoesNotExist, TemplateSyntaxError
 from django.template.context import Context
 from django.core.exceptions import ObjectDoesNotExist
 
+
+class HttpRequest(object):
+    """
+    Stupid simple HttpRequest class to store a user. May need to be expaneded
+    in the future to act more like the real deal.
+    """
+    def __init__(self, user):
+        self.user = user
+
+
 class GenericFlatblocksTestCase(TestCase):
     def setUp(self):
         # Create a dummy user
@@ -14,7 +24,7 @@ class GenericFlatblocksTestCase(TestCase):
         dummy_user.last_naem = u'Doe'
         dummy_user.save()
         
-        self.assertEqual(dummy_user.pk, 1)        
+        self.assertEqual(dummy_user.pk, 1)
         self.dummy_user = dummy_user
         
         self.admin_user = User.objects.create_superuser(u'admin', u'admin@example.com', u'foobar')
@@ -27,7 +37,7 @@ class GenericFlatblocksTestCase(TestCase):
         user = admin_user and self.admin_user or self.dummy_user
         t = Template(template_string)
         c = Context({'user': user,
-                     'perms': PermWrapper(user),
+                     'request': HttpRequest(user),
                      'LANGUAGE_CODE': 'en'})
         return t.render(c)
 
