@@ -25,6 +25,13 @@ Documenation is available online under:
 Changelog
 =========
 
+-----------------------------
+0.9.1 (backwards compatible):
+-----------------------------
+
+* Django 1.2 compatibility! Fixed a bug where tests did not pass under
+  Django 1.2. Thanks to Brian Rosner for this.
+
 ----------------------------
 v0.9 (backwards compatible):
 ----------------------------
