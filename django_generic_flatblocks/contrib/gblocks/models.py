@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django_generic_flatblocks.contrib.gblocks import settings as blocks_settings
+
 
 class Title(models.Model):
     title = models.CharField(_('title'), max_length=255, blank=True)
@@ -14,7 +16,8 @@ class Text(models.Model):
         return "(TextBlock) %s..." % self.text[:20]
 
 class Image(models.Model):
-    image = models.ImageField(_('image'), upload_to='gblocks/', blank=True)
+    image = models.ImageField(_('image'),
+        upload_to=blocks_settings.UPLOAD_PATH + 'gblocks/', blank=True)
 
     def __unicode__(self):
         return "(ImageBlock) %s" % self.image
@@ -29,7 +32,8 @@ class TitleAndText(models.Model):
 class TitleTextAndImage(models.Model):
     title = models.CharField(_('title'), max_length=255, blank=True)
     text = models.TextField(_('text'), blank=True)
-    image = models.ImageField(_('image'), upload_to='gblocks/', blank=True)
+    image = models.ImageField(_('image'),
+        upload_to=blocks_settings.UPLOAD_PATH + 'gblocks/', blank=True)
 
     def __unicode__(self):
         return "(TitleTextAndImageBlock) %s" % self.title
