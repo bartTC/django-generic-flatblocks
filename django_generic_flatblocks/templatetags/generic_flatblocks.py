@@ -8,6 +8,9 @@ from django_generic_flatblocks.models import GenericFlatblock
 
 register = Library()
 
+from django.template.context import Context
+
+
 class GenericFlatblockNode(Node):
     def __init__(self, slug, modelname=None, template_path=None,
                  variable_name=None, store_in_object=None):
@@ -86,7 +89,9 @@ class GenericFlatblockNode(Node):
         related_model = get_model(applabel, modellabel)
         return related_model
 
-    def render(self, context):
+    def render(self, original_context):
+        context = Context()
+        context.update(original_context)
 
         slug = self.generate_slug(self.slug, context)
         related_model = self.resolve_model_for_label(self.modelname, context)
@@ -98,15 +103,21 @@ class GenericFlatblockNode(Node):
         # if "into" is provided, store the related object into this variable
         if self.store_in_object:
             into_var = self.resolve(self.store_in_object, context)
-            context[into_var] = related_object
-            context["%s_generic_object" % into_var] = generic_object
-            context["%s_admin_url" % into_var] = admin_url
-            return ''
+            update_dict = {
+                into_var: related_object,
+                "%s_generic_object" % into_var: generic_object,
+                "%s_admin_url" % into_var: admin_url,
+            }
+            context.update(update_dict)
+            return u''
 
         # Add the model instances to the current context
-        context['generic_object'] = generic_object
-        context['object'] = related_object
-        context['admin_url'] = admin_url
+        update_dict = {
+            'generic_object': generic_object,
+            'object': related_object,
+            'admin_url': admin_url,
+        }
+        context.update(update_dict)
 
         # Resolve the template(s)
         template_paths = []
@@ -120,13 +131,13 @@ class GenericFlatblockNode(Node):
         except:
             if settings.TEMPLATE_DEBUG:
                 raise
-            return ''
+            return u''
         content = t.render(context)
 
         # Set content as variable inside context, if variable_name is given
         if self.variable_name:
             context[self.resolve(self.variable_name, context)] = content
-            return ''
+            return u''
         return content
 
 def do_genericflatblock(parser, token):
@@ -139,7 +150,7 @@ def do_genericflatblock(parser, token):
 
     def next_bit_for(bits, key, if_none=None):
         try:
-            return bits[bits.index(key)+1]
+            return bits[bits.index(key) + 1]
         except ValueError:
             return if_none
 
