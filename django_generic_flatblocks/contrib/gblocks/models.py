@@ -40,8 +40,8 @@ class Image(models.Model):
 class TitleAndText(models.Model):
 
     class Meta:
-        verbose_name = _('Image and text block')
-        verbose_name_plural = _('Image and text blocks')
+        verbose_name = _('Title and text block')
+        verbose_name_plural = _('Title and text blocks')
 
     title = models.CharField(_('title'), max_length=255, blank=True)
     text = models.TextField(_('text'), blank=True)
