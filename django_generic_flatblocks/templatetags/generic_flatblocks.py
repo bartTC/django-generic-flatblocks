@@ -25,14 +25,10 @@ class GenericFlatblockNode(Node):
         Generates a slug out of a comma-separated string. Automatically resolves
         variables in it. Examples::
 
-        "website","title" -> website_title
-        "website",LANGUAGE_CODE -> website_en
+        "website","title" -> website-title
+        "website",LANGUAGE_CODE -> website-en
         """
-        # If the user passed a integer as slug, use it as a primary key in
-        # self.get_content_object()
-        if not ',' in slug and isinstance(self.resolve(slug, context), int):
-            return self.resolve(slug, context)
-        return slugify('_'.join([str(self.resolve(i, context)) for i in slug.split(',')]))
+        return slugify(self.resolve(slug, context))
 
     def generate_admin_link(self, related_object, context):
         """
