@@ -14,6 +14,7 @@ class GenericFlatblockAdmin(admin.ModelAdmin):
         'related_object_changelink',
         'slug'
     )
+    fields = ('slug',)
 
     list_display_links = ('slug',)
 
