@@ -26,20 +26,3 @@ class GenericFlatblock(models.Model):
 
     def __unicode__(self):
         return self.slug
-
-
-def create_generic(sender, instance, **kwrgs):
-    '''
-    Insert newly created object in ``GenericFlatblock`` table.
-    '''
-    # to avoid recursion save, process only for new instances
-    created = kwrgs.pop('created', False)
-    if created:
-        slug = getattr(instance, 'slug', None)
-        GenericFlatblock.objects.create(content_object=instance, slug=slug)
-
-for item in flatblocks_settings.FLATBLOCK_MODELS:
-    app_label, model_name = item.split('.')
-    model_cls = loading.cache.get_model(app_label, model_name)
-    # Add ``GenericFlatblock`` instance to saved models
-    post_save.connect(create_generic, model_cls)
