@@ -1,0 +1,61 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-08-27 23:52-0400\n"
+"PO-Revision-Date: 2011-08-27 11:57+EDT\n"
+"Last-Translator: Maxime Haineault <max@motion-m.ca>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: French\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+
+#: admin.py:22
+msgid "change related object"
+msgstr "Modifier l'objet relié"
+
+#: models.py:7
+msgid "slug"
+msgstr "slug"
+
+#: contrib/gblocks/models.py:5 contrib/gblocks/models.py:23
+#: contrib/gblocks/models.py:30
+msgid "title"
+msgstr "titre"
+
+#: contrib/gblocks/models.py:11 contrib/gblocks/models.py:24
+#: contrib/gblocks/models.py:31
+msgid "text"
+msgstr "text"
+
+#: contrib/gblocks/models.py:17 contrib/gblocks/models.py:32
+msgid "image"
+msgstr "image"
+
+#: templates/admin/django_generic_flatblocks/change_form_forward.html:6
+msgid "Notice"
+msgstr "Note"
+
+#: templates/admin/django_generic_flatblocks/change_form_forward.html:7
+#, python-format
+msgid ""
+"This object stores only the path to the related <em>%(related_app_label)s/"
+"%(related_module_name)s</em> object with the primary key <em>%(related_pk)s</"
+"em>."
+msgstr ""
+"Cet objet ne sert que de liaison vers l'objet <em>%(related_app_label)s/"
+"%(related_module_name)s</em> avec la clé primaire <em>%(related_pk)s</"
+"em>."
+
+
+#: templates/admin/django_generic_flatblocks/change_form_forward.html:9
+msgid "Click this link to edit the object itself."
+msgstr "Cliquer ce lien pour modifier l'objet désigné."
