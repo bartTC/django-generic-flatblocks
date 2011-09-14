@@ -4,7 +4,6 @@ from django.db import models
 from django.db.models import loading
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
-from django_generic_flatblocks import settings as flatblocks_settings
 from django.template.defaultfilters import slugify
 
 
@@ -21,7 +20,6 @@ class GenericFlatblock(models.Model):
         return ret
 
     def _generate_slug(self):
-        print 'generating slug...', self.content_object
         return slugify((self.content_type.model, self.content_object.id))
 
     def __unicode__(self):
