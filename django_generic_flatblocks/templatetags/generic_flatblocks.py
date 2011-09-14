@@ -5,6 +5,7 @@ from django.conf import settings
 from django.db.models.loading import get_model
 from django.template.defaultfilters import slugify
 from django_generic_flatblocks.models import GenericFlatblock
+from django.core.urlresolvers import reverse
 
 register = Library()
 
@@ -37,11 +38,11 @@ class GenericFlatblockNode(Node):
         """
         app_label = related_object._meta.app_label
         module_name = related_object._meta.module_name
+        
         # Check if user has change permissions
         if context['request'].user.is_authenticated() and \
-           context['request'].user.has_perm('%s.change' % module_name):
-            admin_url_prefix = getattr(settings, 'ADMIN_URL_PREFIX', '/admin/')
-            return '%s%s/%s/%s/' % (admin_url_prefix, app_label, module_name, related_object.pk)
+           context['request'].user.has_perm('%s.change_%s' % (app_label, module_name)):
+            return reverse('admin:%s_%s_change' % (app_label, module_name), args=[related_object.pk])
         else:
             return None
 
