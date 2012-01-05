@@ -10,12 +10,13 @@ register = Library()
 
 class GenericFlatblockNode(Node):
     def __init__(self, slug, modelname=None, template_path=None,
-                 variable_name=None, store_in_object=None):
+                 variable_name=None, store_in_object=None, initial_data=None):
         self.slug = slug
         self.modelname = modelname
         self.template_path = template_path
         self.variable_name = variable_name
         self.store_in_object = store_in_object
+        self.initial_data = initial_data
 
     def generate_slug(self, slug, context):
         """
@@ -46,7 +47,7 @@ class GenericFlatblockNode(Node):
         else:
             return None
 
-    def get_content_object(self, related_model, slug):
+    def get_content_object(self, related_model, slug, context):
 
         # If the user passed a Integer as a slug, assume that we should fetch
         # this specific object
@@ -69,7 +70,11 @@ class GenericFlatblockNode(Node):
                 generic_object.delete()
                 raise GenericFlatblock.DoesNotExist
         except GenericFlatblock.DoesNotExist:
-            related_object = related_model._default_manager.create()
+            if self.initial_data:
+                initial_data = self.resolve_initial_data(self.initial_data, context)
+            else:
+                initial_data = {}
+            related_object = related_model._default_manager.create(**initial_data)
             generic_object = GenericFlatblock._default_manager.create(slug=slug, content_object=related_object)
         return generic_object, related_object
 
@@ -86,13 +91,20 @@ class GenericFlatblockNode(Node):
         related_model = get_model(applabel, modellabel)
         return related_model
 
+    def resolve_initial_data(self, initial_data, context):
+        data = {}
+        for field in self.initial_data.split(','):
+            k, v = field.split(':')
+            data[self.resolve(k, context)] = self.resolve(v, context)
+        return data
+
     def render(self, context):
 
         slug = self.generate_slug(self.slug, context)
         related_model = self.resolve_model_for_label(self.modelname, context)
 
         # Get the generic and related object
-        generic_object, related_object = self.get_content_object(related_model, slug)
+        generic_object, related_object = self.get_content_object(related_model, slug, context)
         admin_url = self.generate_admin_link(related_object, context)
 
         # if "into" is provided, store the related object into this variable
@@ -135,6 +147,7 @@ def do_genericflatblock(parser, token):
     {% gblock "slug" for "appname.modelname" into "slug_object" %}
     {% gblock "slug" for "appname.modelname" with "templatename.html" %}
     {% gblock "slug" for "appname.modelname" with "templatename.html" as "variable" %}
+    {% gblock "slug" for "appname.modelname" initial title="Default Title" %}
     """
 
     def next_bit_for(bits, key, if_none=None):
@@ -150,6 +163,7 @@ def do_genericflatblock(parser, token):
         'template_path': next_bit_for(bits, 'with'),
         'variable_name': next_bit_for(bits, 'as'),
         'store_in_object': next_bit_for(bits, 'into'),
+        'initial_data': next_bit_for(bits, 'initial'),
     }
     return GenericFlatblockNode(**args)
 
