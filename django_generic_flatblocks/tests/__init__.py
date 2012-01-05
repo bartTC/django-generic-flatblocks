@@ -203,6 +203,17 @@ class GenericFlatblocksTestCase(TestCase):
         self.assertRaises((User.DoesNotExist, TemplateSyntaxError), self.parseTemplate, template_string)
         settings.TEMPLATE_DEBUG = False
 
+    def testInitialArgument(self):
+        template_string  = '''
+        {% load generic_flatblocks %}
+        {% gblock "initial_title" for "gblocks.Title" initial "title":"default_title" %}
+        '''
+        self.parseTemplate(template_string)
+
+        from django_generic_flatblocks.models import GenericFlatblock
+        o = GenericFlatblock.objects.get(slug='initial_title')
+        self.assertEquals(u'Default Title', o.content_object.title)
+
     def testRelatedObjectDeletion(self):
         template_string  = '''
         {% load generic_flatblocks %}
