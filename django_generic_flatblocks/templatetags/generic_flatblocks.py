@@ -156,7 +156,7 @@ def do_genericflatblock(parser, token):
         except ValueError:
             return if_none
 
-    bits = token.contents.split()
+    bits = token.split_contents()
     args = {
         'slug': next_bit_for(bits, 'gblock'),
         'modelname': next_bit_for(bits, 'for'),
