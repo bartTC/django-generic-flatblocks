@@ -5,7 +5,7 @@
     block at the end of this page in a variable called FOOTER
 {% endcomment %}
 
-{% gblock "footer" for "gblocks.Text" as "FOOTER" %}
+{% gblock "footer" for "gblocks.Text" as "FOOTER" %}   
 
 <html>
 <head>
@@ -17,24 +17,24 @@
 </head>
 </body>
 <div id="outline">
-
+    
     <p><em>See the <strong>template</strong> sources for further details.</em></p>
-
+    
     {% comment %}
         You can join unlimited of slug-strings or context-variables
-        to one slug. Most commonly you will do this if you need to
+        to one slug. Most commonly you will do this if you need to 
         use the users LANGUAGE_CODE in your slug, to have different
         content nodes for every language.
     {% endcomment %}
     {% gblock "website","title",LANGUAGE_CODE for "gblocks.Title" %}
-
+    
     {% comment %}
         The slug can also be a context variable.
     {% endcomment %}
     {% with "website_teaser" as my_slug %}
-        {% gblock my_slug for "gblocks.Text" %}
+        {% gblock my_slug for "gblocks.Text" %} 
     {% endwith %}
-
+    
     {% comment %}
         You can always render each generic block with a template of
         your choice,
@@ -52,7 +52,7 @@
         Basically this is a {% include %} tag on model level.
     {% endcomment %}
     {% gblock 1 for "auth.user" with "current_user.html" %}
-
+    
     {% comment %}
         You can store the related object directly in the context using
         the "into" argument. This is the quickest way to display any
@@ -63,7 +63,7 @@
     {% if the_user_object_admin_url %}<a href="{{ the_user_object_admin_url }}">edit</a>{% endif %}
 
     <hr/>
-
+    
     {% comment %}
         Here is the FOOTER content node we defined above.
     {% endcomment %}

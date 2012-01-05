@@ -206,7 +206,7 @@ class GenericFlatblocksTestCase(TestCase):
     def testInitialArgument(self):
         template_string  = '''
         {% load generic_flatblocks %}
-        {% gblock "initial_title" for "gblocks.Title" initial "title":"default_title" %}
+        {% gblock "initial_title" for "gblocks.Title" initial "title":"Default Title" %}
         '''
         self.parseTemplate(template_string)
 
