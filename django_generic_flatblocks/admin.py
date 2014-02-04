@@ -1,7 +1,11 @@
+# -*- conding: utf-8 -*-
+from django.db.models import loading
 from django.contrib import admin
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django_generic_flatblocks.models import GenericFlatblock
+
 
 class GenericFlatblockAdmin(admin.ModelAdmin):
 
@@ -9,6 +13,7 @@ class GenericFlatblockAdmin(admin.ModelAdmin):
         'related_object_changelink',
         'slug'
     )
+    fields = ('slug',)
 
     list_display_links = ('slug',)
 
@@ -44,5 +49,6 @@ class GenericFlatblockAdmin(admin.ModelAdmin):
         c.update(extra_context or {})
         self.change_form_template = 'admin/django_generic_flatblocks/change_form_forward.html'
         return super(GenericFlatblockAdmin, self).change_view(request, object_id, extra_context=c)
+
 
 admin.site.register(GenericFlatblock, GenericFlatblockAdmin)
