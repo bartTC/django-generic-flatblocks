@@ -1,0 +1,15 @@
+[run]
+source = django_generic_flatblocks
+branch = True
+omit =
+    django_generic_flatblocks/migrations/*
+    django_generic_flatblocks/contrib/gbocks/migrations/*
+    django_generic_flatblocks/tests/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+
+[html]
+directory = /tmp/coverage_html_report
