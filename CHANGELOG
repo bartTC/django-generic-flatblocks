@@ -2,9 +2,9 @@
 Changelog
 =========
 
-**master**
+**1.0 (2016-03-23)**
     * Code cleanup and update for Django 1.8+. Python3 Support. Better
-      test integration.
+      test integration. Better docs.
 
 **0.9.1** (2010-03-22)
     * Django 1.2 compatibility! Fixed a bug where tests did not pass
