@@ -21,29 +21,3 @@ Documentation
 Documenation is available online under:
 
     http://readthedocs.org/docs/django-generic-flatblocks/en/latest/
-
-Changelog
-=========
-
------------------------------
-0.9.1 (backwards compatible):
------------------------------
-
-* Django 1.2 compatibility! Fixed a bug where tests did not pass under
-  Django 1.2. Thanks to Brian Rosner for this.
-
-----------------------------
-v0.9 (backwards compatible):
-----------------------------
-
-* Fixed a bug where an integer was not allowed as a part of a slug.
-
-----------------------------
-v0.4 (backwards compatible):
-----------------------------
-
-* Added Danish translation.
-* Added better documentation.
-* Added unittests.
-* If you fetch a not existing "primary key" object the templatetag will fail
-  silently if settings.TEMPLATE_DEBUG is False.
