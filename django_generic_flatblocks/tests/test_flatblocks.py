@@ -1,14 +1,11 @@
 from django.test import TestCase
 from django.conf import settings
-from django.core.context_processors import PermWrapper
 from django.template import Template, TemplateDoesNotExist, TemplateSyntaxError
 from django.template.context import Context
-from django.core.exceptions import ObjectDoesNotExist
-
 
 class HttpRequest(object):
     """
-    Stupid simple HttpRequest class to store a user. May need to be expaneded
+    Stupid simple HttpRequest class to store a user. May need to be expanded
     in the future to act more like the real deal.
     """
     def __init__(self, user):
@@ -106,7 +103,7 @@ class GenericFlatblocksTestCase(TestCase):
         {% load generic_flatblocks %}
         {% gblock "title" for "foo.Bar" %}
         '''
-        self.assertRaises(AttributeError, self.parseTemplate, template_string)
+        self.assertRaises(LookupError, self.parseTemplate, template_string)
 
         # Missing for argument
         template_string  = '''
@@ -136,7 +133,7 @@ class GenericFlatblocksTestCase(TestCase):
         settings.TEMPLATE_DEBUG = True
         template_string  = '''
         {% load generic_flatblocks %}
-        {% gblock "title" for "auth.Permissions" %}
+        {% gblock "title" for "auth.Permission" %}
         '''
         self.assertRaises((TemplateDoesNotExist, TemplateSyntaxError), self.parseTemplate, template_string)
         settings.TEMPLATE_DEBUG = False
@@ -144,7 +141,7 @@ class GenericFlatblocksTestCase(TestCase):
         # Fail silently if the template does not exist but TEMPLATE_DEBUG is False
         template_string  = '''
         {% load generic_flatblocks %}
-        {% gblock "title" for "auth.Permissions" %}
+        {% gblock "title" for "auth.Permission" %}
         '''
         self.assertTrue(self.parseTemplate(template_string).strip() == u'')
 

@@ -2,7 +2,7 @@ from django.template import Library, Node
 from django.template import TemplateSyntaxError, TemplateDoesNotExist, Variable
 from django.template.loader import select_template
 from django.conf import settings
-from django.db.models.loading import get_model
+from django.apps import apps
 from django.template.defaultfilters import slugify
 from django_generic_flatblocks.models import GenericFlatblock
 
@@ -37,7 +37,8 @@ class GenericFlatblockNode(Node):
         will work automatically using urlresolvers.
         """
         app_label = related_object._meta.app_label
-        module_name = related_object._meta.module_name
+        module_name = related_object._meta.model_name
+
         # Check if user has change permissions
         if context['request'].user.is_authenticated() and \
            context['request'].user.has_perm('%s.change' % module_name):
@@ -83,7 +84,7 @@ class GenericFlatblockNode(Node):
     def resolve_model_for_label(self, modelname, context):
         """resolves a model for a applabel.modelname string"""
         applabel, modellabel = self.resolve(modelname, context).split(".")
-        related_model = get_model(applabel, modellabel)
+        related_model = apps.get_model(applabel, modellabel)
         return related_model
 
     def render(self, context):
