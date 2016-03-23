@@ -9,7 +9,7 @@ However, both of them have one problem: you are limited to a predefined
 content field; a "text" field in chunks and a "title" and "text" field in
 flatblocks.
 
-django-generic-flatblocks solves this problem as it knows nothing about the 
+django-generic-flatblocks solves this problem as it knows nothing about the
 content itself. You *attach* your hand made content node (a simple model) where
 you can define any fields you want.
 
@@ -20,11 +20,10 @@ Contents:
 
 .. toctree::
    :glob:
-   
-   index
+
    installation
-   configuration
-   ref/usage
-   ref/creating_nodes
-   ref/contributed_nodes
+   quickstart
+   usage
+   creating_nodes
+   contributed_nodes
    changelog

@@ -3,7 +3,7 @@
 
 .. image:: https://codecov.io/github/bartTC/django-generic-flatblocks/coverage.svg?branch=master
     :target: https://codecov.io/github/bartTC/django-generic-flatblocks?branch=master
-    
+
 =========================
 django-generic-flatblocks
 =========================

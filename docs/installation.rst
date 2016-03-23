@@ -4,19 +4,37 @@ Installation
 ============
 
 This package is available through the python package index, pypi. You can
-install the latest version using ``easy_install``::
-
-    easy_install django-generic-flatblocks
-
-or if you prefer pip, thats similar::
+install the latest version by::
 
     pip install django-generic-flatblocks
-    
-If you like to live on the edge, the latest development version is always
-available on my `github repository`_. Checkout is done using::
 
-    git clone git@github.com:bartTC/django-generic-flatblocks.git
 
-.. _github repository: http://github.com/bartTC/django-generic-flatblocks/
+Add the module to your ``INSTALLED_APPS`` in your settings::
 
-Next step is: :ref:`configuration`
+    INSTALLED_APPS = (
+        ...
+        'django_generic_flatblocks',
+        'django_generic_flatblocks.contrib.gblocks',  # Optional sample models
+    )
+
+Make sure that ``django.core.context_processors.request`` was added to your
+``TEMPLATE`` options::
+
+    TEMPLATES = [{
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.request',
+                ...
+
+*(Optional)* Define the url prefix to your contrib.admin installation in the
+setting ``ADMIN_URL_PREFIX``. Most commonly this is ``/admin/``. Beware
+the trailing slash.
+
+Migrate the database schemas::
+
+    ./manage.py migrate
+
+See :ref:`quickstart` for a quick demonstration or :ref:`ref-usage` for a
+detailed integration.
+

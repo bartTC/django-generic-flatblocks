@@ -1,8 +1,8 @@
 .. _ref-usage:
 
-==================
-Usage in templates
-==================
+==============
+Detailed usage
+==============
 
 First of all, in every template you want to use generic-flatblocks, load the
 templatetags library::
