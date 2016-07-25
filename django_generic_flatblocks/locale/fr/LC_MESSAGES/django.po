@@ -48,11 +48,11 @@ msgstr "Note"
 #, python-format
 msgid ""
 "This object stores only the path to the related <em>%(related_app_label)s/"
-"%(related_module_name)s</em> object with the primary key <em>%(related_pk)s</"
+"%(related_model_name)s</em> object with the primary key <em>%(related_pk)s</"
 "em>."
 msgstr ""
 "Cet objet ne sert que de liaison vers l'objet <em>%(related_app_label)s/"
-"%(related_module_name)s</em> avec la clé primaire <em>%(related_pk)s</"
+"%(related_model_name)s</em> avec la clé primaire <em>%(related_pk)s</"
 "em>."
 
 

@@ -37,13 +37,13 @@ class GenericFlatblockNode(Node):
         will work automatically using urlresolvers.
         """
         app_label = related_object._meta.app_label
-        module_name = related_object._meta.model_name
+        model_name = related_object._meta.model_name
 
         # Check if user has change permissions
         if context['request'].user.is_authenticated() and \
-           context['request'].user.has_perm('%s.change' % module_name):
+           context['request'].user.has_perm('%s.change' % model_name):
             admin_url_prefix = getattr(settings, 'ADMIN_URL_PREFIX', '/admin/')
-            return '%s%s/%s/%s/' % (admin_url_prefix, app_label, module_name, related_object.pk)
+            return '%s%s/%s/%s/' % (admin_url_prefix, app_label, model_name, related_object.pk)
         else:
             return None
 

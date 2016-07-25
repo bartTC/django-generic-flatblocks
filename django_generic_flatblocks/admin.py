@@ -24,7 +24,7 @@ class GenericFlatblockAdmin(admin.ModelAdmin):
     def generate_related_object_admin_link(self, related_object):
         return '../../%s/%s/%s/' % (
             related_object._meta.app_label,
-            related_object._meta.module_name,
+            related_object._meta.model_name,
             related_object.pk
         )
 
@@ -39,7 +39,7 @@ class GenericFlatblockAdmin(admin.ModelAdmin):
             'admin_url': self.generate_related_object_admin_link(related_object),
             'related_object': related_object,
             'related_app_label': related_object._meta.app_label,
-            'related_module_name': related_object._meta.module_name,
+            'related_model_name': related_object._meta.model_name,
         }
         c.update(extra_context or {})
         self.change_form_template = 'admin/django_generic_flatblocks/change_form_forward.html'
