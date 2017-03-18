@@ -2,12 +2,12 @@ from setuptools import setup, find_packages
 
 long_description = u'\n\n'.join((
     open('README.rst').read(),
-    open('CHANGELOG').read()
+    open('CHANGELOG.rst').read()
 ))
 
 setup(
     name='django-generic-flatblocks',
-    version='1.0',
+    version='1.1',
     description='A flatpages/flatblock application using generic relations to content models.',
     long_description=long_description,
     author='Martin Mahner',
