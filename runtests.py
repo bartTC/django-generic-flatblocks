@@ -13,7 +13,6 @@ SETTINGS = {
             'NAME': 'dev.db',
         },
     },
-
     'INSTALLED_APPS': [
         'django_generic_flatblocks',
         'django_generic_flatblocks.tests',
@@ -29,6 +28,20 @@ SETTINGS = {
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
     ),
+    'TEMPLATES': [
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'DIRS': [],
+            'APP_DIRS': True,
+            'OPTIONS': {
+                'context_processors': [
+                    'django.template.context_processors.debug',
+                    'django.template.context_processors.request',
+                    'django.template.context_processors.i18n',
+                ],
+            },
+        },
+    ],
 }
 
 def runtests(*test_args):

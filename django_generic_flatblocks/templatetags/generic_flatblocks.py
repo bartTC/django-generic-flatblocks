@@ -56,7 +56,7 @@ class GenericFlatblockNode(Node):
                 related_object = related_model._default_manager.get(pk=slug)
                 return None, related_object
             except related_model.DoesNotExist:
-                if settings.TEMPLATE_DEBUG:
+                if settings.DEBUG:
                     raise
                 related_object = related_model()
                 return None, related_object
@@ -119,7 +119,7 @@ class GenericFlatblockNode(Node):
         try:
             t = select_template(template_paths)
         except:
-            if settings.TEMPLATE_DEBUG:
+            if settings.DEBUG:
                 raise
             return ''
         content = t.render(context)

@@ -20,12 +20,12 @@ class GenericFlatblocksTestCase(TestCase):
         dummy_user.first_name = u'John'
         dummy_user.last_naem = u'Doe'
         dummy_user.save()
-        
+
         self.assertEqual(dummy_user.pk, 1)
         self.dummy_user = dummy_user
-        
+
         self.admin_user = User.objects.create_superuser(u'admin', u'admin@example.com', u'foobar')
-    
+
     def tearDown(self):
         from django.contrib.auth.models import User
         User.objects.all().delete()
@@ -129,16 +129,16 @@ class GenericFlatblocksTestCase(TestCase):
         t = self.parseTemplate(template_string)
         self.assertTrue(u'<h2></h2>' in t)
 
-        # Raise exception if the template does not exist if TEMPLATE_DEBUG is True
-        settings.TEMPLATE_DEBUG = True
+        # Raise exception if the template does not exist if DEBUG is True
+        settings.DEBUG = True
         template_string  = '''
         {% load generic_flatblocks %}
         {% gblock "title" for "auth.Permission" %}
         '''
         self.assertRaises((TemplateDoesNotExist, TemplateSyntaxError), self.parseTemplate, template_string)
-        settings.TEMPLATE_DEBUG = False
+        settings.DEBUG = False
 
-        # Fail silently if the template does not exist but TEMPLATE_DEBUG is False
+        # Fail silently if the template does not exist but DEBUG is False
         template_string  = '''
         {% load generic_flatblocks %}
         {% gblock "title" for "auth.Permission" %}
@@ -191,14 +191,14 @@ class GenericFlatblocksTestCase(TestCase):
 
 
         from django.contrib.auth.models import User
-        settings.TEMPLATE_DEBUG = True
+        settings.DEBUG = True
         template_string  = '''
         {% load generic_flatblocks %}
         {% gblock 5 for "auth.User" into "the_user" %}
         <foo>{{ the_user.username }}</foo>
         '''
         self.assertRaises((User.DoesNotExist, TemplateSyntaxError), self.parseTemplate, template_string)
-        settings.TEMPLATE_DEBUG = False
+        settings.DEBUG = False
 
     def testRelatedObjectDeletion(self):
         template_string  = '''
@@ -241,41 +241,41 @@ class GenericFlatblocksTestCase(TestCase):
         self.assertTrue(isinstance(GenericFlatblock.objects.get(slug=u'image').content_object, models.Image))
         self.assertTrue(isinstance(GenericFlatblock.objects.get(slug=u'title_and_text').content_object, models.TitleAndText))
         self.assertTrue(isinstance(GenericFlatblock.objects.get(slug=u'title_text_and_image').content_object, models.TitleTextAndImage))
-        
+
     def testAdminLink(self):
         template_string  = '''
         {% load generic_flatblocks %}
         {% gblock "title" for "gblocks.Title" with "test_template.html" %}
         '''
-        t = self.parseTemplate(template_string, admin_user=True)        
+        t = self.parseTemplate(template_string, admin_user=True)
         self.assertTrue("/admin/gblocks/title/1/" in t)
-        
-        
+
+
         # The admin link gets appended to the "into" argument
         template_string  = '''
         {% load generic_flatblocks %}
         {% gblock "title" for "gblocks.Title" into "title_object" %}
         {{ title_object_admin_url }}
         '''
-        t = self.parseTemplate(template_string, admin_user=True)        
+        t = self.parseTemplate(template_string, admin_user=True)
         self.assertTrue("/admin/gblocks/title/1/" in t)
 
         # You can define the admin prefix using a setting
         from django.conf import settings
         settings.ADMIN_URL_PREFIX = '/secret-admin-url/'
-        
+
         template_string  = '''
         {% load generic_flatblocks %}
         {% gblock "title" for "gblocks.Title" with "test_template.html" %}
         '''
-        t = self.parseTemplate(template_string, admin_user=True)        
+        t = self.parseTemplate(template_string, admin_user=True)
         self.assertTrue("/secret-admin-url/gblocks/title/1/" in t)
-        
+
 
         template_string  = '''
         {% load generic_flatblocks %}
         {% gblock "title" for "gblocks.Title" into "title_object" %}
         {{ title_object_admin_url }}
         '''
-        t = self.parseTemplate(template_string, admin_user=True)        
+        t = self.parseTemplate(template_string, admin_user=True)
         self.assertTrue("/secret-admin-url/gblocks/title/1/" in t)
