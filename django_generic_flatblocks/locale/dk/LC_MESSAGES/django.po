@@ -47,11 +47,11 @@ msgstr "Notifikation"
 #, python-format
 msgid ""
 "This object stores only the path to the related <em>%(related_app_label)s/%"
-"(related_module_name)s</em> object with the primary key <em>%(related_pk)s</"
+"(related_model_name)s</em> object with the primary key <em>%(related_pk)s</"
 "em>."
 msgstr ""
 "Dette objekt gemmer udelukkende stien til det relaterede <em>%(related_app_label)s/%"
-"(related_module_name)s</em> objekt med den primære nøgle <em>%(related_pk)s</"
+"(related_model_name)s</em> objekt med den primære nøgle <em>%(related_pk)s</"
 "em>."
 
 #: templates/admin/django_generic_flatblocks/change_form_forward.html:9
