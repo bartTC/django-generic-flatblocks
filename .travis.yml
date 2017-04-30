@@ -9,11 +9,13 @@ env:
   - DJANGO=1.8.*
   - DJANGO=1.9.*
   - DJANGO=1.10.*
+  - DJANGO=1.11.*
 
 before_install:
   - pip install codecov
 
 install:
+  - pip install Pillow
   - pip install django==$DJANGO
   - pip install -e .
 

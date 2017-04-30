@@ -122,7 +122,8 @@ class GenericFlatblockNode(Node):
             if settings.DEBUG:
                 raise
             return ''
-        content = t.render(context)
+
+        content = t.template.render(context)
 
         # Set content as variable inside context, if variable_name is given
         if self.variable_name:
