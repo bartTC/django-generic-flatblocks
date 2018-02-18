@@ -1,7 +1,11 @@
+include *.in
+include *.py
+include *.rst
+include .coveragerc
 include LICENSE
-include README.rst
-include CHANGELOG.rst
-include MANIFEST.in
-recursive-include django_generic_flatblocks/templates *
-recursive-include django_generic_flatblocks/contrib/gblocks/templates *
-recursive-include django_generic_flatblocks/locale *
+include tox.ini
+recursive-include django_generic_flatblocks *.html
+recursive-include django_generic_flatblocks *.po
+recursive-include docs *.py
+recursive-include docs *.rst
+recursive-include docs Makefile
