@@ -16,7 +16,7 @@ class GenericFlatblockAdmin(admin.ModelAdmin):
         return '<a href="%s">%s - %s</a>' % (
             self.generate_related_object_admin_link(obj.content_object),
             obj.slug,
-            obj.content_object.__unicode__(),
+            obj.content_object.__str__(),
         )
     related_object_changelink.allow_tags = True
     related_object_changelink.short_description = _('change related object')

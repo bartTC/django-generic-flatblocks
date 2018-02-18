@@ -10,14 +10,16 @@ application ``myproject``::
 
     from django.db import models
     from django.contrib import admin
-    
+    from django.utils.encoding import python_2_unicode_compatible
+
+    @python_2_unicode_compatible
     class Entry(models.Model):
         title = models.CharField(max_length=255, blank=True)
         content = models.TextField(blank=True)
-        
-        def __unicode__(self):
+
+        def __str__(self):
             return self.title
-    
+
     admin.site.register(Entry)
 
 .. important::
@@ -38,7 +40,7 @@ A common template source for the content node would be::
 
     <h1>{{ object.title }}</h1>
     {{ object.content|safe }}
-    
+
     {% if admin_url %}<a href="{{ admin_url }}">edit this</a>{% endif %}
 
 In your templates, create a new content node using the templatetag::

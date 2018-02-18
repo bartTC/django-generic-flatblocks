@@ -53,7 +53,7 @@ class GenericFlatblocksTestCase(TestCase):
 
         self.assertEqual(generic_obj.slug, u'hello_world')
         self.assertEqual(generic_obj.content_object, title_obj)
-        self.assertEqual(generic_obj.__unicode__(), u'hello_world')
+        self.assertEqual(generic_obj.__str__(), u'hello_world')
 
     def testSlugArgument(self):
         from django_generic_flatblocks.models import GenericFlatblock
@@ -241,6 +241,13 @@ class GenericFlatblocksTestCase(TestCase):
         self.assertTrue(isinstance(GenericFlatblock.objects.get(slug=u'image').content_object, models.Image))
         self.assertTrue(isinstance(GenericFlatblock.objects.get(slug=u'title_and_text').content_object, models.TitleAndText))
         self.assertTrue(isinstance(GenericFlatblock.objects.get(slug=u'title_text_and_image').content_object, models.TitleTextAndImage))
+
+        # Test str method of contributed models
+        self.assertTrue(GenericFlatblock.objects.get(slug=u'title').content_object.__str__())
+        self.assertTrue(GenericFlatblock.objects.get(slug=u'text').content_object.__str__())
+        self.assertTrue(GenericFlatblock.objects.get(slug=u'image').content_object.__str__())
+        self.assertTrue(GenericFlatblock.objects.get(slug=u'title_and_text').content_object.__str__())
+        self.assertTrue(GenericFlatblock.objects.get(slug=u'title_text_and_image').content_object.__str__())
 
     def testAdminLink(self):
         template_string  = '''
