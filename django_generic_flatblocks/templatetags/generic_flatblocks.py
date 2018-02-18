@@ -3,10 +3,13 @@ from django.template import TemplateSyntaxError, TemplateDoesNotExist, Variable
 from django.template.loader import select_template
 from django.conf import settings
 from django.apps import apps
+from django import VERSION
 from django.template.defaultfilters import slugify
 from django_generic_flatblocks.models import GenericFlatblock
 
 register = Library()
+
+DJANGO_20 = VERSION[0] >= 2
 
 class GenericFlatblockNode(Node):
     def __init__(self, slug, modelname=None, template_path=None,
@@ -40,7 +43,13 @@ class GenericFlatblockNode(Node):
         model_name = related_object._meta.model_name
 
         # Check if user has change permissions
-        if context['request'].user.is_authenticated() and \
+        if DJANGO_20:
+            # Django 1.10+ made is_authenticated a property, 2.0 removed
+            # the fallback.
+            authenticated = context['request'].user.is_authenticated
+        else:
+            authenticated = context['request'].user.is_authenticated()
+        if authenticated and \
            context['request'].user.has_perm('%s.change' % model_name):
             admin_url_prefix = getattr(settings, 'ADMIN_URL_PREFIX', '/admin/')
             return '%s%s/%s/%s/' % (admin_url_prefix, app_label, model_name, related_object.pk)

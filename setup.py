@@ -7,7 +7,7 @@ long_description = u'\n\n'.join((
 
 setup(
     name='django-generic-flatblocks',
-    version='1.1.1',
+    version='1.2',
     description='A flatpages/flatblock application using generic relations to content models.',
     long_description=long_description,
     author='Martin Mahner',
