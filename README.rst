@@ -1,8 +1,14 @@
+.. image:: https://img.shields.io/pypi/v/django-eventlog.svg
+    :target: https://pypi.org/project/django-generic-flatblocks/
+
 .. image:: https://travis-ci.org/bartTC/django-generic-flatblocks.svg?branch=master
     :target: https://travis-ci.org/bartTC/django-generic-flatblocks
 
-.. image:: https://codecov.io/github/bartTC/django-generic-flatblocks/coverage.svg?branch=master
-    :target: https://codecov.io/github/bartTC/django-generic-flatblocks?branch=master
+.. image:: https://api.codacy.com/project/badge/Coverage/606e8ced3f0a48ee8a4b623cd8314b72
+    :target: https://www.codacy.com/app/bartTC/django-generic-flatblocks
+
+.. image:: https://api.codacy.com/project/badge/Grade/606e8ced3f0a48ee8a4b623cd8314b72
+    :target: https://www.codacy.com/app/bartTC/django-generic-flatblocks
 
 =========================
 django-generic-flatblocks
@@ -26,4 +32,4 @@ Documentation
 
 Documenation is available online under:
 
-    http://readthedocs.org/docs/django-generic-flatblocks/en/latest/
+    https://docs.elephant.house/django-generic-flatblocks/

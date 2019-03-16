@@ -1,19 +1,32 @@
-from django.template import Library, Node
-from django.template import TemplateSyntaxError, TemplateDoesNotExist, Variable
-from django.template.loader import select_template
-from django.conf import settings
-from django.apps import apps
 from django import VERSION
+from django.apps import apps
+from django.conf import settings
+from django.template import (
+    Library,
+    Node,
+    TemplateDoesNotExist,
+    TemplateSyntaxError,
+    Variable,
+)
 from django.template.defaultfilters import slugify
+from django.template.loader import select_template
+
 from django_generic_flatblocks.models import GenericFlatblock
 
 register = Library()
 
 DJANGO_20 = VERSION[0] >= 2
 
+
 class GenericFlatblockNode(Node):
-    def __init__(self, slug, modelname=None, template_path=None,
-                 variable_name=None, store_in_object=None):
+    def __init__(
+        self,
+        slug,
+        modelname=None,
+        template_path=None,
+        variable_name=None,
+        store_in_object=None,
+    ):
         self.slug = slug
         self.modelname = modelname
         self.template_path = template_path
@@ -32,7 +45,9 @@ class GenericFlatblockNode(Node):
         # self.get_content_object()
         if not ',' in slug and isinstance(self.resolve(slug, context), int):
             return self.resolve(slug, context)
-        return slugify('_'.join([str(self.resolve(i, context)) for i in slug.split(',')]))
+        return slugify(
+            '_'.join([str(self.resolve(i, context)) for i in slug.split(',')])
+        )
 
     def generate_admin_link(self, related_object, context):
         """
@@ -49,10 +64,16 @@ class GenericFlatblockNode(Node):
             authenticated = context['request'].user.is_authenticated
         else:
             authenticated = context['request'].user.is_authenticated()
-        if authenticated and \
-           context['request'].user.has_perm('%s.change' % model_name):
+        if authenticated and context['request'].user.has_perm(
+            '%s.change' % model_name
+        ):
             admin_url_prefix = getattr(settings, 'ADMIN_URL_PREFIX', '/admin/')
-            return '%s%s/%s/%s/' % (admin_url_prefix, app_label, model_name, related_object.pk)
+            return '%s%s/%s/%s/' % (
+                admin_url_prefix,
+                app_label,
+                model_name,
+                related_object.pk,
+            )
         else:
             return None
 
@@ -80,7 +101,9 @@ class GenericFlatblockNode(Node):
                 raise GenericFlatblock.DoesNotExist
         except GenericFlatblock.DoesNotExist:
             related_object = related_model._default_manager.create()
-            generic_object = GenericFlatblock._default_manager.create(slug=slug, content_object=related_object)
+            generic_object = GenericFlatblock._default_manager.create(
+                slug=slug, content_object=related_object
+            )
         return generic_object, related_object
 
     def resolve(self, var, context):
@@ -102,7 +125,9 @@ class GenericFlatblockNode(Node):
         related_model = self.resolve_model_for_label(self.modelname, context)
 
         # Get the generic and related object
-        generic_object, related_object = self.get_content_object(related_model, slug)
+        generic_object, related_object = self.get_content_object(
+            related_model, slug
+        )
         admin_url = self.generate_admin_link(related_object, context)
 
         # if "into" is provided, store the related object into this variable
@@ -122,8 +147,10 @@ class GenericFlatblockNode(Node):
         template_paths = []
         if self.template_path:
             template_paths.append(self.resolve(self.template_path, context))
-        template_paths.append('%s/%s/flatblock.html' % \
-            tuple(self.resolve(self.modelname, context).lower().split(".")))
+        template_paths.append(
+            '%s/%s/flatblock.html'
+            % tuple(self.resolve(self.modelname, context).lower().split("."))
+        )
 
         try:
             t = select_template(template_paths)
@@ -140,6 +167,7 @@ class GenericFlatblockNode(Node):
             return ''
         return content
 
+
 def do_genericflatblock(parser, token):
     """
     {% gblock "slug" for "appname.modelname" %}
@@ -150,7 +178,7 @@ def do_genericflatblock(parser, token):
 
     def next_bit_for(bits, key, if_none=None):
         try:
-            return bits[bits.index(key)+1]
+            return bits[bits.index(key) + 1]
         except ValueError:
             return if_none
 
@@ -163,5 +191,6 @@ def do_genericflatblock(parser, token):
         'store_in_object': next_bit_for(bits, 'into'),
     }
     return GenericFlatblockNode(**args)
+
 
 register.tag('gblock', do_genericflatblock)

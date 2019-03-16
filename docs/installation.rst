@@ -38,3 +38,18 @@ Migrate the database schemas::
 See :ref:`quickstart` for a quick demonstration or :ref:`ref-usage` for a
 detailed integration.
 
+
+Local Development
+=================
+
+Install the package using pipenv::
+
+    $ cd django-generic-flatblocks
+    $ pipenv install --dev
+    $ pipenv run test
+
+You can run the testsuite against a variety of Python and Django versions with
+tox::
+
+    $ cd django-generic-flatblocks
+    $ tox

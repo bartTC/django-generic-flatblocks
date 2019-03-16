@@ -1,3 +1,3 @@
 .. _changelog:
 
-.. include:: ../CHANGELOG
+.. include:: ../CHANGELOG.rst

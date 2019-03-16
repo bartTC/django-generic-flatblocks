@@ -2,7 +2,7 @@ Changelog
 =========
 
 v1.2.1 (2018-02-18):
-------------------
+--------------------
 
 - Python backwards compatbility and coverage improvements.
 

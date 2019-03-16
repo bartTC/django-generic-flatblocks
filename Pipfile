@@ -1,0 +1,25 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[packages]
+django-generic-flatblocks = {editable = true,path = "."}
+
+[dev-packages]
+sphinx = "*"
+sphinx-rtd-theme = "*"
+sphinx-autobuild = "*"
+coverage = "*"
+codacy-coverage = "*"
+ipdb = "*"
+isort = "*"
+black = "*"
+
+[pipenv]
+allow_prereleases = true
+
+[scripts]
+test = "./runtests.py"
+docs = "sphinx-build -c docs docs docs/_build/html"
+cleanup = "sh -c \"isort -rc django_generic_flatblocks && black --skip-string-normalization --line-length=80 --exclude='/(migrations)/' django_generic_flatblocks\""
