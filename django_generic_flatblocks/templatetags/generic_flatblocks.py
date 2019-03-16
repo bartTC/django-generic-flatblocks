@@ -4,8 +4,6 @@ from django.conf import settings
 from django.template import (
     Library,
     Node,
-    TemplateDoesNotExist,
-    TemplateSyntaxError,
     Variable,
 )
 from django.template.defaultfilters import slugify
@@ -13,8 +11,10 @@ from django.template.loader import select_template
 
 from django_generic_flatblocks.models import GenericFlatblock
 
-register = Library()
+from logging import getLogger
 
+logger = getLogger(__file__)
+register = Library()
 DJANGO_20 = VERSION[0] >= 2
 
 
@@ -154,9 +154,10 @@ class GenericFlatblockNode(Node):
 
         try:
             t = select_template(template_paths)
-        except:
+        except Exception as e:
+            logger.exception(e)
             if settings.DEBUG:
-                raise
+                raise e
             return ''
 
         content = t.template.render(context)

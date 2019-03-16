@@ -1,5 +1,6 @@
 .. _ref-contributed-nodes:
 
+=========================
 Contributed content nodes
 =========================
 

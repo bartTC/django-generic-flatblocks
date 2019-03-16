@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
@@ -28,7 +27,7 @@ class GenericFlatblockAdmin(admin.ModelAdmin):
             related_object.pk,
         )
 
-    def change_view(self, request, object_id, extra_context=None):
+    def change_view(self, request, object_id, form_url='', extra_context=None):
         """
         Haven't figured out how to edit the related object as an inline.
         This template adds a link to the change view of the related

@@ -10,6 +10,10 @@
 .. image:: https://api.codacy.com/project/badge/Grade/606e8ced3f0a48ee8a4b623cd8314b72
     :target: https://www.codacy.com/app/bartTC/django-generic-flatblocks
 
+----
+
+📖 **Full documentation: https://docs.elephant.house/django-generic-flatblocks/**
+
 =========================
 django-generic-flatblocks
 =========================
@@ -27,9 +31,4 @@ you can define any fields you want.
 .. _`django-flatblocks`: http://github.com/zerok/django-flatblocks/tree/master
 .. _`django-chunks`: http://code.google.com/p/django-chunks/
 
-Documentation
-=============
 
-Documenation is available online under:
-
-    https://docs.elephant.house/django-generic-flatblocks/
