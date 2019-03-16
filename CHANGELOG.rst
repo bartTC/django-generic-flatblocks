@@ -1,5 +1,14 @@
+=========
 Changelog
 =========
+
+v1.3 (2019-03-16):
+------------------
+
+- Django 2.1 compatibility and tests.
+- Python 3.7 compatibility and tests.
+- Pipenv support.
+- General code and package cleanup.
 
 v1.2.1 (2018-02-18):
 --------------------

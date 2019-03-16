@@ -1,4 +1,4 @@
-.. image:: https://img.shields.io/pypi/v/django-eventlog.svg
+.. image:: https://img.shields.io/pypi/v/django-generic-flatblocks.svg
     :target: https://pypi.org/project/django-generic-flatblocks/
 
 .. image:: https://travis-ci.org/bartTC/django-generic-flatblocks.svg?branch=master
