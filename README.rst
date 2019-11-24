@@ -12,7 +12,7 @@
 
 ----
 
-📖 **Full documentation: https://docs.elephant.house/django-generic-flatblocks/**
+📖 **Full documentation: https://django-generic-flatblocks.readthedocs.io/**
 
 =========================
 django-generic-flatblocks
